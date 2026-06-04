@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Building, CalendarCheck, ClipboardCheck, Droplets, Fan, Factory, Hospital, Hotel, Recycle, Settings, ShieldCheck, Wrench, Zap } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 import heroBg1 from "@/assets/hero-bg-1.jpg";
 import heroBg2 from "@/assets/hero-bg-2.jpg";
@@ -69,6 +70,7 @@ const steps = [
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const { hash } = useLocation();
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -77,6 +79,23 @@ const Home = () => {
 
     return () => window.clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (!hash) {
+      return;
+    }
+
+    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!target) {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [hash]);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -139,7 +158,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="solutions" className="section-padding min-h-screen">
+      <section id="solutions" className="section-padding min-h-screen scroll-mt-24">
         <div className="container-narrow">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -168,7 +187,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="how-it-works" className="section-padding gradient-hero min-h-screen">
+      <section id="how-it-works" className="section-padding gradient-hero min-h-screen scroll-mt-24">
         <div className="container-narrow">
           <div className="text-center mb-14">
             <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">How It <span className="text-gradient-orange">Works</span></h2>
@@ -197,7 +216,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="min-h-screen bg-background flex items-center">
+      <section id="get-assessment" className="min-h-screen bg-background flex items-center scroll-mt-24">
         <div className="container-narrow px-4 md:px-8 py-16 md:py-24 lg:py-24 w-full grid gap-10 md:grid-cols-2 items-center">
           <div className="order-2 md:order-1">
             <iframe

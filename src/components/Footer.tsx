@@ -1,10 +1,16 @@
 import { Facebook, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
 import ionicLogo from "@/assets/ionic-logo-short.png";
 
-const Footer = () => (
-  <footer className="gradient-dark-blue px-4 pb-1 pt-8 md:px-8">
-    <div className="container-narrow">
+const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <footer className="gradient-dark-blue px-4 pb-1 pt-8 md:px-8">
+      <div className="container-narrow">
       <div className="grid gap-10 md:gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] items-start md:justify-items-start">
         <div className="flex items-center gap-5 md:justify-self-start">
           <img src={ionicLogo} alt="IONIC Logo" className="h-40 w-40" />
@@ -44,11 +50,22 @@ const Footer = () => (
         </div>
       </div>
 
-      <p className="mt-10 text-primary-foreground/50 text-xs text-center">
-        © {new Date().getFullYear()} Impact One Nation Industrial Corporation. All rights reserved.
-      </p>
-    </div>
-  </footer>
-);
+      <div className="mt-10 flex flex-col items-center gap-4">
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-foreground/20"
+        >
+          <ArrowUp size={16} />
+          Back to Top
+        </button>
+        <p className="text-primary-foreground/50 text-xs text-center">
+          © {new Date().getFullYear()} Impact One Nation Industrial Corporation. All rights reserved.
+        </p>
+      </div>
+      </div>
+    </footer>
+  );
+};
 
 export default Footer;
