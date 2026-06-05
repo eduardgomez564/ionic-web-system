@@ -29,15 +29,7 @@ const navItems = [
   {
     label: "Divisions",
     to: "/divisions",
-    sections: [
-      { label: "Overview of Divisions", to: "/divisions#divisions-overview" },
-      { label: "Industrial Cooling, Boiler and RO Water Treatment Division", to: "/divisions#industrial-cooling-boiler-ro-water-treatment-division" },
-      { label: "Airconditioning Division", to: "/divisions#airconditioning-division" },
-      { label: "Preventive Maintenance Chemicals Division", to: "/divisions#preventive-maintenance-chemicals-division" },
-      { label: "Wastewater Treatment Division", to: "/divisions#wastewater-treatment-division" },
-      { label: "Oil, Grease, and Lubricant Division", to: "/divisions#oil-grease-and-lubricant-division" },
-      { label: "Oil Spill Supplies Division", to: "/divisions#oil-spill-supplies-division" },
-    ],
+    sections: [],
   },
   {
     label: "What We Offer",
@@ -86,7 +78,7 @@ const StickyHeader = () => {
               >
                 {item.label}
               </NavLink>
-              {openItem === item.label && (
+              {openItem === item.label && item.sections?.length ? (
                 <div className={`absolute left-1/2 top-full z-50 -translate-x-1/2 rounded-2xl border border-border bg-white p-2 shadow-xl ${item.label === "Divisions" ? "w-80" : "w-48"}`}>
                   {item.sections.map((section) => (
                     <Link
@@ -99,7 +91,7 @@ const StickyHeader = () => {
                     </Link>
                   ))}
                 </div>
-              )}
+              ) : null}
             </div>
           ))}
         </nav>
@@ -128,18 +120,20 @@ const StickyHeader = () => {
               >
                 {item.label}
               </NavLink>
-              <div className="mt-2 grid gap-1 border-l border-border pl-4">
-                {item.sections.map((section) => (
-                  <Link
-                    key={section.to}
-                    to={section.to}
-                    onClick={closeMenu}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {section.label}
-                  </Link>
-                ))}
-              </div>
+              {item.sections?.length ? (
+                <div className="mt-2 grid gap-1 border-l border-border pl-4">
+                  {item.sections.map((section) => (
+                    <Link
+                      key={section.to}
+                      to={section.to}
+                      onClick={closeMenu}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {section.label}
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
             </div>
           ))}
           <Link

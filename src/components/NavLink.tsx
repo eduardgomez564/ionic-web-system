@@ -1,5 +1,5 @@
-import { NavLink as RouterNavLink, NavLinkProps } from "react-router-dom";
-import { forwardRef } from "react";
+import { NavLink as RouterNavLink, NavLinkProps, useLocation } from "react-router-dom";
+import { forwardRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 interface NavLinkCompatProps extends Omit<NavLinkProps, "className"> {
@@ -10,6 +10,12 @@ interface NavLinkCompatProps extends Omit<NavLinkProps, "className"> {
 
 const NavLink = forwardRef<HTMLAnchorElement, NavLinkCompatProps>(
   ({ className, activeClassName, pendingClassName, to, ...props }, ref) => {
+    const location = useLocation();
+    
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [location]);
+    
     return (
       <RouterNavLink
         ref={ref}
