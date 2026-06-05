@@ -126,25 +126,22 @@ const Home = () => {
         </div>
         <div className="relative z-10 px-10 md:px-8 pt-24 pb-16 lg:px-24">
           <div className="max-w-2xl animate-fade-up">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground leading-tight mb-6 text-center lg:text-left">
               Optimize Your Water Systems. <span className="text-gradient-orange">Prevent Costly Downtime.</span>
             </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-xl leading-relaxed">
+            <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-xl leading-relaxed text-center lg:text-left">
               End-to-end water treatment and industrial maintenance solutions tailored for your facility.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button onClick={() => scrollTo("book")} className="gradient-orange text-accent-foreground px-8 py-4 rounded-lg text-base font-bold hover:opacity-90 transition-opacity shadow-elevated">
-                Book a Free Consultation
-              </button>
-              <button onClick={() => scrollTo("book")} className="border-2 border-primary-foreground/30 text-primary-foreground px-8 py-4 rounded-lg text-base font-semibold hover:bg-primary-foreground/10 transition-colors">
-                Request a Quote
+            <div className="flex flex-col items-center lg:items-start sm:flex-row gap-4">
+              <button onClick={() => scrollTo("book")} className="gradient-orange w-[90%] text-accent-foreground px-8 py-4 rounded-lg text-base font-bold hover:opacity-90 transition-opacity shadow-elevated">
+                Book Your Appointment
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-3 px-4 md:px-8 border-y border-border bg-muted/50">
+      <section className="py-3 px-4 md:px-8 bg-muted/50">
         <div className="container-narrow">
           <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">Trusted across industries</p>
           <div className="flex flex-wrap justify-center gap-8 md:gap-14">
@@ -218,20 +215,21 @@ const Home = () => {
           <div className="order-2 md:order-1">
             <iframe
               title="Impact One Nation Industrial Corporation location"
-              className="aspect-video rounded-2xl shadow-elevated"
+              className="w-full h-[280px] md:h-[480px] rounded-2xl shadow-elevated"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               src="https://www.google.com/maps?q=Blk%209%20Lot%206,%20Banuyo%20Rd,%20Pilar%20Village,%20Las%20Pi%C3%B1as%20City&output=embed"
               allowFullScreen
             />
           </div>
-          <div className="order-1 md:order-2 text-left">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mb-6">Start With an <span className="text-gradient-blue">Assessment</span></h2>
-            <p className="text-muted-foreground max-w-xl mb-10 text-lg">
+          <div className="order-1 md:order-2 text-center md:text-left">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mb-6 text-center lg:text-left">Start With an <span className="text-gradient-blue">Assessment</span></h2>
+            <p className="text-muted-foreground max-w-xl mb-10 text-lg text-center lg:text-left">
               Get a comprehensive assessment of your water treatment systems and a customized plan to reduce costs and improve efficiency.
             </p>
-            <button onClick={() => scrollTo("book")} className="gradient-blue text-accent-foreground px-10 py-5 rounded-xl text-lg font-bold hover:opacity-90 transition-opacity shadow-elevated">
-              Book Your Free Consultation Now
+            <button onClick={() => scrollTo("book")} className="gradient-blue text-accent-foreground px-10 py-5 rounded-xl text-lg font-bold hover:opacity-90 transition-opacity shadow-elevated inline-flex items-center gap-3">
+              <CalendarCheck size={22} />
+              Book Your Appointment Now!
             </button>
           </div>
         </div>
