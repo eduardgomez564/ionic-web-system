@@ -21,8 +21,7 @@ const navItems = [
     sections: [
       { label: "Who We Are", to: "/about_us#who-we-are" },
       { label: "Why Choose IONIC", to: "/about_us#why-choose-ionic" },
-      { label: "Our Mission", to: "/about_us#mission" },
-      { label: "Our Vision", to: "/about_us#vision" },
+      { label: "Our Mission & Vision", to: "/about_us#mission" },
       { label: "Trusted By", to: "/about_us#trusted-by" },
     ],
   },
@@ -108,7 +107,7 @@ const StickyHeader = () => {
             to="/#get-assessment"
             className="hidden sm:inline-flex gradient-orange text-accent-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
           >
-            Book a Free Consultation
+            Book your Appointment
           </Link>
           <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2 text-foreground">
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -147,7 +146,7 @@ const StickyHeader = () => {
             to="/#get-assessment"
             className="inline-flex w-full items-center justify-center gradient-orange text-accent-foreground px-5 py-3 rounded-lg text-sm font-semibold"
           >
-            Book a Free Consultation
+            Book your Appointment
           </Link>
         </div>
       )}
