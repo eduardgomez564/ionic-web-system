@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Droplets, Factory, Fan, Recycle, ShieldCheck, Wrench } from "lucide-react";
-
 import StickyHeader from "@/components/StickyHeader";
 import Footer from "@/components/Footer";
-import heroBg4 from "@/assets/hero-bg-4.jpg";
 
 type ClientLogo = {
   name: string;
@@ -154,12 +152,24 @@ const clientInitials = (name: string) =>
     .join("")
     .toUpperCase();
 
-const ClientCard = ({ client }: { client: ClientLogo }) => {
+const ClientCard = ({
+  client,
+  dark = false,
+}: {
+  client: ClientLogo;
+  dark?: boolean;
+}) => {
   const [imageFailed, setImageFailed] = useState(false);
 
   return (
-    <div className="rounded-lg border border-border bg-card p-3 flex flex-col items-center justify-center gap-2 h-28 text-center transition-transform hover:-translate-y-0.5 hover:shadow-md">
-      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-muted/10 overflow-hidden">
+    <div
+      className={`rounded-lg border p-3 flex flex-col items-center justify-center gap-2 h-28 text-center transition-transform hover:-translate-y-0.5 hover:shadow-md
+        ${dark
+          ? "border-white/10 bg-white/5"
+          : "border-border bg-card"
+        }`}
+    >
+      <div className="flex items-center justify-center h-10 w-10 rounded-full overflow-hidden bg-muted/10">
         {client.logoUrl && !imageFailed ? (
           <img
             src={client.logoUrl}
@@ -175,7 +185,13 @@ const ClientCard = ({ client }: { client: ClientLogo }) => {
           </div>
         )}
       </div>
-      <p className="text-xs leading-tight text-foreground line-clamp-2">{client.name}</p>
+      <p
+        className={`text-xs leading-tight line-clamp-2 ${
+          dark ? "text-primary-foreground/80" : "text-foreground"
+        }`}
+      >
+        {client.name}
+      </p>
     </div>
   );
 };
@@ -184,107 +200,153 @@ const Divisions = () => {
   const { hash } = useLocation();
 
   useEffect(() => {
-    if (!hash) {
-      return;
-    }
-
+    if (!hash) return;
     const target = document.getElementById(decodeURIComponent(hash.slice(1)));
-    if (!target) {
-      return;
-    }
-
+    if (!target) return;
     const frame = window.requestAnimationFrame(() => {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-
     return () => window.cancelAnimationFrame(frame);
   }, [hash]);
 
   return (
     <>
-      <StickyHeader />
-      <main className="w-full py-12 md:py-16 lg:py-20">
-        <section id="divisions-overview" className="bg-slate-900 text-primary-foreground py-12 md:py-16 scroll-mt-24">
-          <div className="max-w-7xl mx-auto px-4 md:px-8">
-            <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-center">
-              <div className="space-y-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary-foreground/70">Our Divisions</p>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">Overview of Divisions</h1>
-                <p className="text-base md:text-lg leading-relaxed text-primary-foreground/80 max-w-3xl">
-                  Six focused divisions support industrial, commercial, and public-sector clients across water treatment, maintenance chemicals, wastewater systems, lubricants, and spill response.
-                </p>
-              </div>
-
-              <nav className="rounded-lg border border-white/5 bg-white/5 p-4">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground/70 mb-3">Jump to a division</p>
-                <ul className="space-y-2">
-                  {divisions.map((division, index) => (
-                    <li key={division.id}>
-                      <a
-                        href={`#${division.id}`}
-                        className="flex items-center justify-between gap-4 rounded-md px-3 py-2 text-sm font-medium text-primary-foreground/95 hover:bg-white/10"
-                      >
-                        <span className="truncate">{romanNumerals[index]}. {division.shortTitle}</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
+    <StickyHeader />
+      {/* ── 1. OVERVIEW — dark bg ── */}
+      <section
+        id="divisions-overview"
+        className="section-padding min-h-screen gradient-hero flex items-center scroll-mt-24"
+      >
+        <div className="container-narrow w-full grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center">
+          <div className="space-y-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary-foreground/60">
+              Our Divisions
+            </p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight text-primary-foreground">
+              Overview of <span className="text-gradient-orange">Divisions</span>
+            </h1>
+            <p className="text-base md:text-lg leading-relaxed text-primary-foreground/75 max-w-2xl">
+              Six focused divisions support industrial, commercial, and
+              public-sector clients across water treatment, maintenance
+              chemicals, wastewater systems, lubricants, and spill response.
+            </p>
           </div>
-        </section>
 
-        {divisions.map((division, index) => (
+          {/* Jump nav */}
+          <nav className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground/60 mb-4">
+              Jump to a division
+            </p>
+            <ul className="space-y-1">
+              {divisions.map((division, index) => (
+                <li key={division.id}>
+                  <a
+                    href={`#${division.id}`}
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-primary-foreground/90 hover:bg-white/10 transition-colors"
+                  >
+                    <span className="shrink-0 w-6 text-xs font-bold text-ionic-orange">
+                      {romanNumerals[index]}
+                    </span>
+                    <span className="truncate">{division.shortTitle}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </section>
+
+      {/* ── 2–7. DIVISION SECTIONS — alternating light / dark ── */}
+      {divisions.map((division, index) => {
+        const isDark = index % 2 !== 0; // even = light, odd = dark
+
+        return (
           <section
             key={division.id}
             id={division.id}
-            className="scroll-mt-24 border-t border-border bg-background py-12"
+            className={`section-padding min-h-screen flex items-center scroll-mt-24 ${
+              isDark ? "gradient-hero" : "bg-background"
+            }`}
           >
-            <div className="max-w-7xl mx-auto px-4 md:px-8">
-              <div className="grid gap-8 lg:grid-cols-[1fr_320px] items-start">
-                <div>
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-lg ${division.accent} text-white`}>
-                      <division.icon size={22} />
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground mb-1">Division {romanNumerals[index]}</p>
-                      <h2 className="text-xl md:text-2xl font-bold text-foreground">{division.title}</h2>
-                    </div>
-                  </div>
-
-                  <p className="text-base md:text-lg leading-relaxed text-muted-foreground mb-6">{division.summary}</p>
-
-                  <ul className="space-y-3 mb-6">
-                    {division.bullets.map((bullet) => (
-                      <li key={bullet} className="flex items-start gap-3">
-                        <span className="mt-1 h-2.5 w-2.5 rounded-full bg-ionic-orange" />
-                        <p className="text-sm md:text-base text-foreground/90">{bullet}</p>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-6">
-                    <p className="text-sm font-semibold mb-3">Clients</p>
-                    <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4">
-                      {division.clients.map((client) => (
-                        <ClientCard key={client.name} client={client} />
-                      ))}
-                    </div>
-                  </div>
+            <div className="container-narrow w-full">
+              {/* Division header */}
+              <div className="flex items-start gap-4 mb-6">
+                <div
+                  className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${division.accent} text-white shadow-elevated`}
+                >
+                  <division.icon size={24} />
                 </div>
+                <div>
+                  <p
+                    className={`text-xs font-semibold uppercase tracking-[0.25em] mb-1 ${
+                      isDark
+                        ? "text-primary-foreground/60"
+                        : "text-muted-foreground"
+                    }`}
+                  >
+                    Division {romanNumerals[index]}
+                  </p>
+                  <h2
+                    className={`text-2xl md:text-3xl font-bold leading-snug ${
+                      isDark ? "text-primary-foreground" : "text-foreground"
+                    }`}
+                  >
+                    {division.title}
+                  </h2>
+                </div>
+              </div>
 
-                <div className="pl-2">
-                  <div className="rounded-lg border border-border bg-card p-4">
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-3">About this division</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">More details, case studies, or sector notes can go here. This side panel keeps supporting information tidy and easily scannable.</p>
-                  </div>
+              {/* Summary + bullets */}
+              <p
+                className={`text-base md:text-lg leading-relaxed mb-6 max-w-3xl ${
+                  isDark ? "text-primary-foreground/75" : "text-muted-foreground"
+                }`}
+              >
+                {division.summary}
+              </p>
+
+              <ul className="space-y-3 mb-10">
+                {division.bullets.map((bullet) => (
+                  <li key={bullet} className="flex items-start gap-3">
+                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-ionic-orange" />
+                    <p
+                      className={`text-sm md:text-base ${
+                        isDark
+                          ? "text-primary-foreground/85"
+                          : "text-foreground/90"
+                      }`}
+                    >
+                      {bullet}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Clients */}
+              <div>
+                <p
+                  className={`text-sm font-semibold uppercase tracking-widest mb-4 ${
+                    isDark
+                      ? "text-primary-foreground/60"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  Clients
+                </p>
+                <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                  {division.clients.map((client) => (
+                    <ClientCard
+                      key={client.name}
+                      client={client}
+                      dark={isDark}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
           </section>
-        ))}
-      </main>
+        );
+      })}
       <Footer />
     </>
   );

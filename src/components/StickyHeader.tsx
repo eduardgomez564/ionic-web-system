@@ -87,7 +87,7 @@ const StickyHeader = () => {
                 {item.label}
               </NavLink>
               {openItem === item.label && (
-                <div className={`absolute left-1/2 top-full z-50 mt-1.5 -translate-x-1/2 rounded-2xl border border-border bg-white p-2 shadow-xl ${item.label === "Divisions" ? "w-80" : "w-48"}`}>
+                <div className={`absolute left-1/2 top-full z-50 -translate-x-1/2 rounded-2xl border border-border bg-white p-2 shadow-xl ${item.label === "Divisions" ? "w-80" : "w-48"}`}>
                   {item.sections.map((section) => (
                     <Link
                       key={section.to}
@@ -103,7 +103,7 @@ const StickyHeader = () => {
             </div>
           ))}
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center p-3">
           <Link
             to="/#get-assessment"
             className="hidden sm:inline-flex gradient-orange text-accent-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"

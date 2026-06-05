@@ -178,9 +178,6 @@ const Home = () => {
                   <h3 className="text-base font-semibold text-foreground">{solution.title}</h3>
                 </div>
                 <p className="text-muted-foreground mb-3 leading-relaxed text-sm">{solution.desc}</p>
-                <button onClick={() => scrollTo("book")} className="text-sm font-semibold text-primary hover:text-ionic-blue-light transition-colors">
-                  Get Assessment →
-                </button>
               </div>
             ))}
           </div>
