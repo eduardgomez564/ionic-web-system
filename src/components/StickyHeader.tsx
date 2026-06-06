@@ -41,10 +41,6 @@ const navItems = [
   {
     label: "Contact Us",
     to: "/contact_us",
-    sections: [
-      { label: "Company Details", to: "/contact_us#company-details" },
-      { label: "Key Contacts", to: "/contact_us#key-contacts" },
-    ],
   },
 ];
 
@@ -96,7 +92,7 @@ const StickyHeader = () => {
         </nav>
         <div className="flex items-center p-3">
           <Link
-            to="/#get-assessment"
+            to="/appointment"
             className="hidden sm:inline-flex gradient-orange text-accent-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
           >
             Book your Appointment
@@ -137,7 +133,7 @@ const StickyHeader = () => {
           ))}
           <Link
             onClick={closeMenu}
-            to="/#get-assessment"
+            to="/appointment"
             className="inline-flex w-full items-center justify-center gradient-orange text-accent-foreground px-5 py-3 rounded-lg text-sm font-semibold"
           >
             Book your Appointment

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Building, CalendarCheck, ClipboardCheck, Droplets, Fan, Factory, Hospital, Hotel, Recycle, Settings, ShieldCheck, Wrench, Zap } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import heroBg1 from "@/assets/hero-bg-1.jpg";
 import heroBg2 from "@/assets/hero-bg-2.jpg";
@@ -133,9 +133,9 @@ const Home = () => {
               End-to-end water treatment and industrial maintenance solutions tailored for your facility.
             </p>
             <div className="flex flex-col items-center lg:items-start sm:flex-row gap-4">
-              <button onClick={() => scrollTo("book")} className="gradient-orange w-[90%] text-accent-foreground px-8 py-4 rounded-lg text-base font-bold hover:opacity-90 transition-opacity shadow-elevated">
+              <Link to="/appointment" className="gradient-orange w-[90%] text-accent-foreground px-8 py-4 rounded-lg text-base font-bold hover:opacity-90 transition-opacity shadow-elevated text-center">
                 Book Your Appointment
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -203,9 +203,9 @@ const Home = () => {
             ))}
           </div>
           <div className="text-center">
-            <button onClick={() => scrollTo("book")} className="gradient-orange text-accent-foreground px-8 py-4 rounded-lg text-base font-bold hover:opacity-90 transition-opacity shadow-elevated">
+            <Link to="/appointment" className="gradient-orange text-accent-foreground px-8 py-4 rounded-lg text-base font-bold hover:opacity-90 transition-opacity shadow-elevated inline-flex items-center gap-2">
               Book Your Appointment
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -227,10 +227,10 @@ const Home = () => {
             <p className="text-muted-foreground max-w-xl mb-10 text-lg text-center lg:text-left">
               Get a comprehensive assessment of your water treatment systems and a customized plan to reduce costs and improve efficiency.
             </p>
-            <button onClick={() => scrollTo("book")} className="gradient-blue text-accent-foreground px-10 py-5 rounded-xl text-lg font-bold hover:opacity-90 transition-opacity shadow-elevated inline-flex items-center gap-3">
+            <Link to="/appointment" className="gradient-blue text-accent-foreground px-10 py-5 rounded-xl text-lg font-bold hover:opacity-90 transition-opacity shadow-elevated inline-flex items-center gap-3">
               <CalendarCheck size={22} />
               Book Your Appointment Now!
-            </button>
+            </Link>
           </div>
         </div>
       </section>
