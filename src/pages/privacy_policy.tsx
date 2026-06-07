@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight">
               Privacy <span className="text-gradient-blue">Policy</span>
             </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl">
+            <p className="text-muted-foreground text-lg text-justify">
               At Impact One Nation Industrial Corporation (IONIC), we are committed to protecting your privacy. This policy explains how we collect, use, and safeguard your information when you visit our website or request our services.
             </p>
             <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted w-fit px-3.5 py-1.5 rounded-full border border-border">
@@ -33,12 +33,9 @@ const PrivacyPolicy = () => {
             {/* Section 1: Introduction */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-ionic-blue to-ionic-blue/60 flex items-center justify-center shadow-md flex-shrink-0">
-                  <ShieldCheck className="text-white" size={18} />
-                </div>
                 <h2 className="text-xl font-bold text-foreground">1. Introduction</h2>
               </div>
-              <p className="text-muted-foreground leading-relaxed pl-12 text-sm md:text-base">
+              <p className="text-muted-foreground leading-relaxed pl-12 text-sm md:text-base text-justify">
                 Impact One Nation Industrial Corporation ("we", "our", or "IONIC") respects your privacy and is dedicated to protecting the personal data of our customers, website visitors, and partners. This Privacy Policy describes how we collect, utilize, process, and protect your information when you interact with our website, request quotes, schedule appointments, or communicate with us.
               </p>
             </div>
@@ -48,12 +45,9 @@ const PrivacyPolicy = () => {
             {/* Section 2: Information We Collect */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-ionic-blue to-ionic-blue/60 flex items-center justify-center shadow-md flex-shrink-0">
-                  <Eye className="text-white" size={18} />
-                </div>
                 <h2 className="text-xl font-bold text-foreground">2. Information We Collect</h2>
               </div>
-              <div className="text-muted-foreground leading-relaxed pl-12 space-y-3 text-sm md:text-base">
+              <div className="text-muted-foreground leading-relaxed pl-12 space-y-3 text-sm md:text-base text-justify">
                 <p>
                   We collect information that you voluntarily provide to us when you fill out forms on our website (such as our Contact Us or Appointment Request forms). This information may include:
                 </p>
@@ -71,16 +65,13 @@ const PrivacyPolicy = () => {
             {/* Section 3: How We Use Your Information */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-ionic-orange to-ionic-orange/60 flex items-center justify-center shadow-md flex-shrink-0">
-                  <FileText className="text-white" size={18} />
-                </div>
                 <h2 className="text-xl font-bold text-foreground">3. How We Use Your Information</h2>
               </div>
               <div className="text-muted-foreground leading-relaxed pl-12 space-y-3 text-sm md:text-base">
                 <p>
                   We process your personal data for legitimate business purposes, including:
                 </p>
-                <ul className="list-disc pl-5 space-y-2">
+                <ul className="list-disc pl-5 space-y-2 text-justify">
                   <li><strong>Scheduling & Coordination:</strong> Processing your appointment requests and coordinating consultations for industrial water treatment or preventive maintenance.</li>
                   <li><strong>Customer Support:</strong> Responding to your inquiries, complaints, and service requests submitted via the Contact Us page.</li>
                   <li><strong>Notifications:</strong> Sending confirmation emails and status updates regarding your requested services or bookings.</li>
@@ -94,12 +85,9 @@ const PrivacyPolicy = () => {
             {/* Section 4: Data Security */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-ionic-orange to-ionic-orange/60 flex items-center justify-center shadow-md flex-shrink-0">
-                  <Lock className="text-white" size={18} />
-                </div>
                 <h2 className="text-xl font-bold text-foreground">4. Data Security & Storage</h2>
               </div>
-              <p className="text-muted-foreground leading-relaxed pl-12 text-sm md:text-base">
+              <p className="text-muted-foreground leading-relaxed pl-12 text-sm md:text-base text-justify">
                 We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, loss, alteration, or disclosure. When you submit requests on our site, the details are transmitted securely via EmailJS. We restrict access to your personal data to authorized employees and technical personnel who need the information to perform their duties.
               </p>
             </div>
@@ -109,12 +97,9 @@ const PrivacyPolicy = () => {
             {/* Section 5: Information Sharing */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-ionic-blue to-ionic-blue/60 flex items-center justify-center shadow-md flex-shrink-0">
-                  <Globe className="text-white" size={18} />
-                </div>
                 <h2 className="text-xl font-bold text-foreground">5. Sharing of Personal Data</h2>
               </div>
-              <p className="text-muted-foreground leading-relaxed pl-12 text-sm md:text-base">
+              <p className="text-muted-foreground leading-relaxed pl-12 text-sm md:text-base text-justify">
                 IONIC does not sell, rent, or lease customer databases or personal information to third parties. We do not share your information with external parties except where required by law, or when necessary to complete a service request you have explicitly authorized (such as logistics for delivery of equipment/chemicals).
               </p>
             </div>
@@ -124,7 +109,7 @@ const PrivacyPolicy = () => {
             {/* Section 6: Contact Us */}
             <div className="space-y-3 bg-muted/40 rounded-xl p-5 border border-border">
               <h3 className="text-lg font-bold text-foreground">Questions or Concerns?</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+              <p className="text-muted-foreground text-sm leading-relaxed mb-4 text-justify">
                 If you have questions about this Privacy Policy, wish to access or correct your personal data, or want to file a request to delete your records, please contact our Data Protection Office:
               </p>
               <div className="space-y-2 text-sm text-foreground">

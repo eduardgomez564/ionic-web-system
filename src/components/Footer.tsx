@@ -2,6 +2,7 @@ import { Facebook, Mail, MapPin, Phone, Download } from "lucide-react";
 import { ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import ionicLogo from "@/assets/ionic-logo-short.png";
+import ionicFullName from "@/assets/ionic-fullname.png";
 import brochurePdf from "@/assets/company-profile/IONIC-Brochure.pdf";
 import companyProfilePdf from "@/assets/company-profile/IONIC-Company Profile.pdf";
 
@@ -60,8 +61,9 @@ const Footer = () => {
       <div className="container-narrow">
         <div className="grid gap-10 md:gap-8 md:grid-cols-2 lg:grid-cols-5 items-start md:justify-items-start">
           {/* Logo Column */}
-          <div className="flex items-center gap-5 md:justify-self-start">
+          <div className="flex flex-col items-center md:justify-self-start">
             <img src={ionicLogo} alt="IONIC Logo" className="h-24 md:h-32 lg:h-40 w-auto" />
+            <img src={ionicFullName} alt="IONIC Full Name" className="w-28 md:w-36 lg:w-44 h-auto" />
           </div>
 
           {/* Site Map */}
