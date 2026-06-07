@@ -29,23 +29,24 @@ const whyChooseCards = [
 ];
 
 const trustedClients = [
-  "PNOC The Energy Comp.",
-  "San Miguel Global Power",
-  "DMCI Power Corp.",
-  "Semirara Mining & Power Corp.",
-  "CSi Malls",
-  "Office of the President of the Philippines",
-  "National Museum",
-  "Bangko Sentral ng Pilipinas",
-  "Carmelray Industrial Corp.",
-  "Southwest Luzon Power Generation Corp.",
-  "Continental AG",
-  "AG&P Refueled. To You.",
-  "Cultural Center of the Philippines",
-  "Magic Mall Urdaneta",
-  "Automated Technology Phil. Inc.",
-  "San Nicholas Lines, Inc.",
-  "Pherwin Shipping Corp.",
+  { name: "PNOC The Energy Comp.", img: "1A" },
+  { name: "San Miguel Global Power", img: "1B" },
+  { name: "DMCI Power Corp.", img: "1C" },
+  { name: "Semirara Mining & Power Corp.", img: "1D" },
+  { name: "CSi Malls", img: "1E" },
+  { name: "Office of the President of the Philippines", img: "2A" },
+  { name: "National Museum", img: "2B" },
+  { name: "Bangko Sentral ng Pilipinas", img: "2C" },
+  { name: "Carmelray Industrial Corp.", img: "3A" },
+  { name: "Southwest Luzon Power Generation Corp.", img: "3B" },
+  { name: "Continental AG", img: "3C" },
+  { name: "AG&P Refueled. To You.", img: "3D" },
+  { name: "Cultural Center of the Philippines", img: "4A" },
+  { name: "Magic Mall Urdaneta", img: "4D" },
+  { name: "Automated Technology Phil. Inc.", img: "5C" },
+  { name: "San Nicholas Lines, Inc.", img: "6A" },
+  { name: "Pherwin Shipping Corp.", img: "6B" },
+  { name: "Philippine Coast Guard", img: "6C" },
 ];
 
 const AboutUs = () => {
@@ -84,7 +85,7 @@ const AboutUs = () => {
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 text-foreground leading-tight">
             Who <span className="text-gradient-blue">We</span> Are
           </h1>
-          <div className="space-y-6 text-base md:text-lg leading-relaxed text-muted-foreground max-w-2xl">
+          <div className="space-y-6 text-justify text-base md:text-lg leading-relaxed text-muted-foreground max-w-2xl">
             <p>
               Founded in 1996 as Ionic Chemicals & Industrial Corporation (ICIC)
               and rebranded as <strong>Impact One Nation Industrial Corporation (IONIC) </strong> 
@@ -129,10 +130,10 @@ const AboutUs = () => {
               className="group flex h-full flex-col rounded-lg border border-white/10 bg-white/5 p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-elevated"
             >
               <div className="mb-4 h-1.5 w-14 rounded-full bg-gradient-to-r from-ionic-blue to-ionic-orange" />
-              <h3 className="text-lg font-bold text-primary-foreground mb-3 leading-snug">
+              <h3 className="text-lg font-bold text-primary-foreground mb-3 text-center leading-snug">
                 {card.title}
               </h3>
-              <p className="text-primary-foreground/70 leading-relaxed text-sm md:text-base">
+              <p className="text-primary-foreground/70 leading-relaxed text-justify text-sm md:text-base">
                 {card.description}
               </p>
             </div>
@@ -150,7 +151,7 @@ const AboutUs = () => {
       <div className="container-narrow w-full relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Our <span className="text-gradient-blue">Mission</span> &{" "}
+            <span className="text-gradient-blue">Mission</span> &{" "}
             <span className="text-gradient-orange">Vision</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">The foundational values that define how we operate, serve our clients, and uphold our standards across every project and partnership.</p>
@@ -161,7 +162,7 @@ const AboutUs = () => {
             className="group relative rounded-2xl border border-border bg-card p-10 shadow-card"
           >
             <div className="absolute -inset-[1px] bg-gradient-to-br from-ionic-blue/20 via-transparent to-transparent opacity-0" />
-            <div className="mb-6 flex items-center gap-3">
+            <div className="mb-6 flex justify-center items-center gap-3">
               <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-ionic-blue to-ionic-blue/60 flex items-center justify-center shadow-lg">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -171,7 +172,7 @@ const AboutUs = () => {
                 Our <span className="text-gradient-blue">Mission</span>
               </h3>
             </div>
-            <p className="text-muted-foreground leading-relaxed text-base">
+            <p className="text-muted-foreground leading-relaxed text-base text-justify">
               Our mission is to provide comprehensive water treatment solutions
               and proactive plant preventive maintenance services that ensure
               the reliability, efficiency, and sustainability of our clients'
@@ -186,7 +187,7 @@ const AboutUs = () => {
             className="group relative rounded-2xl border border-border bg-card p-10 shadow-card"
           >
             <div className="absolute -inset-[1px] bg-gradient-to-br from-ionic-orange/20 via-transparent to-transparent opacity-0" />
-            <div className="mb-6 flex items-center gap-3">
+            <div className="mb-6 flex justify-center items-center gap-3">
               <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-ionic-orange to-ionic-orange/60 flex items-center justify-center shadow-lg">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -197,7 +198,7 @@ const AboutUs = () => {
                 Our <span className="text-gradient-orange">Vision</span>
               </h3>
             </div>
-            <p className="text-muted-foreground leading-relaxed text-base">
+            <p className="text-muted-foreground leading-relaxed text-base text-justify">
               Our vision is to be the premier provider of integrated water
               treatment and plant preventive maintenance services, setting the
               standard for excellence and innovation in our industry. By
@@ -228,27 +229,29 @@ const AboutUs = () => {
           </p>
         </div>
 
-        <div className="relative">
+        <div className="relative overflow-hidden">
           {/* Row 1 — left */}
-          <div className="flex gap-5 mb-5 animate-marquee">
+          <div className="flex gap-5 mb-5 animate-marquee" style={{ width: "max-content" }}>
             {[...trustedClients, ...trustedClients].map((client, idx) => (
               <div
                 key={`r1-${idx}`}
-                className="flex-shrink-0 rounded-lg border border-white/10 bg-white/5 px-8 py-5 min-h-[150px] min-w-[260px] hover:bg-white/10 transition-colors"
+                className="flex-shrink-0 flex flex-col items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 w-60 hover:bg-white/10 transition-colors"
               >
-                <p className="text-primary-foreground font-semibold text-center whitespace-nowrap text-sm md:text-base">{client}</p>
+                <img src={`/src/assets/ionic-partnerships/${client.img}.png`} alt={client.name} style={{ height: "5rem" }} className="w-full object-contain" />
+                <p className="text-primary-foreground/80 font-medium text-center text-sm leading-snug">{client.name}</p>
               </div>
             ))}
           </div>
 
           {/* Row 2 — right */}
-          <div className="flex gap-5 animate-marquee-reverse">
+          <div className="flex gap-5 animate-marquee-reverse" style={{ width: "max-content" }}>
             {[...trustedClients.slice().reverse(), ...trustedClients.slice().reverse()].map((client, idx) => (
               <div
-                key={`r2-${idx}`} 
-                className="flex-shrink-0 rounded-lg border border-white/10 bg-white/5 px-8 py-5 min-h-[150px] min-w-[260px] hover:bg-white/10 transition-colors"
+                key={`r2-${idx}`}
+                className="flex-shrink-0 flex flex-col items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 w-60 hover:bg-white/10 transition-colors"
               >
-                <p className="text-primary-foreground font-semibold text-center whitespace-nowrap text-sm md:text-base">{client}</p>
+                <img src={`/src/assets/ionic-partnerships/${client.img}.png`} alt={client.name} style={{ height: "5rem" }} className="w-full object-contain" />
+                <p className="text-primary-foreground/80 font-medium text-center text-sm leading-snug">{client.name}</p>
               </div>
             ))}
           </div>
