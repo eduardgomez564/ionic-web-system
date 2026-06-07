@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Check,
@@ -11,8 +11,6 @@ import {
   Recycle,
   ShieldCheck,
   Wrench,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
 
 import StickyHeader from "@/components/StickyHeader";
@@ -268,100 +266,27 @@ const partnerHoverLabelsByDivision: Record<string, string[]> = {
 
 const Divisions = () => {
   const { hash } = useLocation();
-  const navigate = useNavigate();
 
-  const [activeDivisionIndex, setActiveDivisionIndex] = useState(0);
-  const [showAllPartners, setShowAllPartners] = useState(false);
-
-  const showcaseRef = useRef<HTMLElement | null>(null);
-  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
-
-  const activeDivision = divisions[activeDivisionIndex];
-  const activeDivisionImage = divisionImages.find(
-    (image) => image.fileName === activeDivision.imageFile
-  );
-
-  const activePartnerImages = partnershipImages.filter((image) => {
-    const match = image.fileName.match(/^(\d+)/);
-    return Number.parseInt(match?.[1] ?? "0", 10) === activeDivisionIndex + 1;
+  // Track which divisions are expanded. Start with the first one expanded by default.
+  const [expandedDivisions, setExpandedDivisions] = useState<Record<string, boolean>>({
+    "industrial-cooling-boiler-ro-water-treatment-division": true,
   });
 
-  const visiblePartners = showAllPartners
-    ? activePartnerImages
-    : activePartnerImages.slice(0, 8);
-  const hasMorePartners = activePartnerImages.length > 8;
-  const visiblePartnerNames = visiblePartners.map(
-    (_, index) =>
-      partnerHoverLabelsByDivision[activeDivision.id]?.[index] ??
-      activeDivision.clients[index] ??
-      `Client ${index + 1}`
-  );
+  // Track showAllPartners state independently for each division
+  const [showAllPartners, setShowAllPartners] = useState<Record<string, boolean>>({});
 
-  const activateDivision = (index: number, options?: { updateHash?: boolean }) => {
-    const updateHash = options?.updateHash ?? true;
-
-    if (index === activeDivisionIndex) {
-      return;
-    }
-
-    setShowAllPartners(false);
-    setActiveDivisionIndex(index);
-
-    if (updateHash) {
-      navigate(`/divisions#${divisions[index].id}`, { replace: true });
-    }
-    // Ensure the page scrolls to the showcase (image + details) when a division is activated
-    // so the user sees the division header and image instead of content below it.
-    window.requestAnimationFrame(() => {
-      const el = showcaseRef.current;
-      if (!el) return;
-      const headerEl = document.querySelector("header");
-      const headerHeight = headerEl?.getBoundingClientRect().height ?? 0;
-      const extraOffset = 12; // little breathing room
-      const target = el.getBoundingClientRect().top + window.scrollY - (headerHeight + extraOffset);
-      window.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
-    });
+  const toggleDivision = (id: string) => {
+    setExpandedDivisions((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
   };
 
-  const nextDivision = () => {
-    const nextIndex = (activeDivisionIndex + 1) % divisions.length;
-    activateDivision(nextIndex);
-  };
-
-  const previousDivision = () => {
-    const prevIndex = (activeDivisionIndex - 1 + divisions.length) % divisions.length;
-    activateDivision(prevIndex);
-  };
-
-  const handleTabKeyDown = (
-    event: KeyboardEvent<HTMLButtonElement>,
-    index: number
-  ) => {
-    const isHorizontal = window.matchMedia("(max-width: 767px)").matches;
-    const nextKey = isHorizontal ? "ArrowRight" : "ArrowDown";
-    const prevKey = isHorizontal ? "ArrowLeft" : "ArrowUp";
-
-    let nextIndex = index;
-
-    if (event.key === nextKey || event.key === "ArrowRight" || event.key === "ArrowDown") {
-      nextIndex = (index + 1) % divisions.length;
-    } else if (
-      event.key === prevKey ||
-      event.key === "ArrowLeft" ||
-      event.key === "ArrowUp"
-    ) {
-      nextIndex = (index - 1 + divisions.length) % divisions.length;
-    } else if (event.key === "Home") {
-      nextIndex = 0;
-    } else if (event.key === "End") {
-      nextIndex = divisions.length - 1;
-    } else {
-      return;
-    }
-
-    event.preventDefault();
-    tabRefs.current[nextIndex]?.focus();
-    activateDivision(nextIndex, { updateHash: true });
+  const togglePartners = (id: string) => {
+    setShowAllPartners((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
   };
 
   useEffect(() => {
@@ -370,20 +295,20 @@ const Divisions = () => {
     }
 
     const hashId = decodeURIComponent(hash.slice(1));
-    const divisionIndex = divisions.findIndex((division) => division.id === hashId);
-    if (divisionIndex === -1) {
+    const targetDivision = divisions.find((division) => division.id === hashId);
+    if (!targetDivision) {
       return;
     }
 
-    setShowAllPartners(false);
-    setActiveDivisionIndex(divisionIndex);
+    // Auto-expand the target division
+    setExpandedDivisions((prev) => ({ ...prev, [hashId]: true }));
 
     const frame = window.requestAnimationFrame(() => {
-      const el = showcaseRef.current;
+      const el = document.getElementById(hashId);
       if (!el) return;
       const headerEl = document.querySelector("header");
       const headerHeight = headerEl?.getBoundingClientRect().height ?? 0;
-      const extraOffset = 12;
+      const extraOffset = 20;
       const target = el.getBoundingClientRect().top + window.scrollY - (headerHeight + extraOffset);
       window.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
     });
@@ -397,192 +322,183 @@ const Divisions = () => {
 
       <section
         id="divisions-overview"
-        className="bg-background px-4 pb-10 pt-24 md:px-8 md:pb-12 md:pt-28 scroll-mt-24"
+        className="bg-background px-4 pb-20 pt-24 md:px-8 md:pb-24 md:pt-28"
       >
-        <div className="container-narrow mx-auto w-full">
-          <div className="mb-5 space-y-2.5 md:mb-6 text-center">
-            <h1 className="text-3xl font-extrabold leading-tight text-foreground md:text-4xl">
+        <div className="container-narrow mx-auto w-full space-y-12">
+          {/* Header */}
+          <div className="space-y-3 text-center">
+            <h1 className="text-3xl font-extrabold leading-tight text-foreground md:text-4xl lg:text-5xl">
               Our <span className="text-gradient-blue">Divisions</span>
             </h1>
-            <p className="max-w-none text-center text-sm leading-relaxed text-muted-foreground md:text-base">
-              Our industrial solutions portfolio is organized into six focused
-              divisions that support reliability, compliance, and operational
-              performance.
+            <p className="max-w-2xl mx-auto text-center text-sm leading-relaxed text-muted-foreground md:text-base">
+              Our industrial solutions portfolio is organized into six focused divisions that support reliability, compliance, and operational performance. Explore each division below.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-border bg-background p-3 md:p-4">
-            <div className="mb-2 flex items-center justify-between">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                Select a Division to Explore
-              </p>
-            </div>
+          {/* List of Divisions as Collapsible Containers */}
+          <div className="space-y-6">
+            {divisions.map((division, index) => {
+              const isExpanded = !!expandedDivisions[division.id];
+              const Icon = division.icon;
 
-            <div role="tablist" aria-label="Company divisions" className={mobileTabContainerStyles}>
-              {divisions.map((division, index) => {
-                const isActive = index === activeDivisionIndex;
-                const Icon = division.icon;
+              const divisionImage = divisionImages.find(
+                (image) => image.fileName === division.imageFile
+              );
 
-                return (
+              const activePartnerImages = partnershipImages.filter((image) => {
+                const match = image.fileName.match(/^(\d+)/);
+                return Number.parseInt(match?.[1] ?? "0", 10) === index + 1;
+              });
+
+              const isShowingAllPartners = !!showAllPartners[division.id];
+              const visiblePartners = isShowingAllPartners
+                ? activePartnerImages
+                : activePartnerImages.slice(0, 8);
+              const hasMorePartners = activePartnerImages.length > 8;
+
+              return (
+                <div
+                  key={division.id}
+                  id={division.id}
+                  className={`rounded-2xl border border-border bg-card shadow-card overflow-hidden transition-all duration-300 scroll-mt-24 ${
+                    isExpanded ? "ring-1 ring-ionic-orange/10 shadow-elevated" : ""
+                  }`}
+                >
+                  {/* Collapsible Header */}
                   <button
-                    key={division.id}
-                    ref={(element) => {
-                      tabRefs.current[index] = element;
-                    }}
-                    id={`${division.id}-tab`}
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-controls="division-showcase"
-                    tabIndex={isActive ? 0 : -1}
                     type="button"
-                    onClick={() => activateDivision(index, { updateHash: true })}
-                    onKeyDown={(event) => handleTabKeyDown(event, index)}
-                    className={`group min-w-[190px] min-h-[80px] snap-start rounded-xl border p-2.5 text-left transition-all duration-300 hover:-translate-y-0.5 hover:shadow-card md:min-w-0 ${
-                      isActive
-                        ? "border-ionic-blue bg-white text-foreground shadow-elevated ring-1 ring-ionic-orange/20"
-                        : "border-border bg-card text-foreground hover:border-ionic-blue/35"
-                    }`}
+                    onClick={() => toggleDivision(division.id)}
+                    className="w-full text-left p-5 md:p-6 flex items-center justify-between gap-4 bg-white hover:bg-muted/10 transition-colors focus:outline-none"
                   >
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-4 min-w-0">
                       <span
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-primary-foreground shadow-sm transition-transform ${
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-primary-foreground shadow-md transition-transform ${
                           index % 2 === 0 ? "gradient-cta" : "gradient-hero"
-                        } ${isActive ? "ring-2 ring-ionic-orange/20" : ""}`}
+                        } ${isExpanded ? "scale-105 ring-2 ring-ionic-orange/20" : ""}`}
                       >
-                        <Icon size={16} className="text-primary-foreground" />
+                        <Icon size={20} className="text-primary-foreground" />
                       </span>
-                      <span className="min-w-0">
-                        <span
-                          className={`block text-[10px] font-semibold uppercase tracking-[0.18em] ${
-                            isActive ? "text-ionic-blue" : "text-muted-foreground"
-                          }`}
-                        >
+                      <div className="min-w-0">
+                        <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-ionic-blue">
                           Division {index + 1}
                         </span>
-                        <span className="block text-xs font-semibold leading-snug md:text-sm">
+                        <h2 className="text-base font-bold leading-snug md:text-xl text-foreground truncate">
                           {division.title}
-                        </span>
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <article
-            ref={showcaseRef}
-            id="division-showcase"
-            role="tabpanel"
-            aria-labelledby={`${activeDivision.id}-tab`}
-            className="mt-4 rounded-2xl border border-border bg-background p-3 md:p-4 relative"
-          >
-            {/* Left Arrow */}
-            <button
-              onClick={previousDivision}
-              className="absolute -left-3 md:-left-6 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white border border-border text-muted-foreground hover:text-ionic-blue hover:border-ionic-blue transition-all duration-300 shadow-elevated hover:scale-110"
-            >
-              <ChevronLeft size={24} />
-            </button>
-
-            {/* Right Arrow */}
-            <button
-              onClick={nextDivision}
-              className="absolute -right-3 md:-right-6 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white border border-border text-muted-foreground hover:text-ionic-blue hover:border-ionic-blue transition-all duration-300 shadow-elevated hover:scale-110"
-            >
-              <ChevronRight size={24} />
-            </button>
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeDivision.id}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.34, ease: "easeOut" }}
-                className="space-y-4"
-              >
-                <div className="grid gap-4 lg:grid-cols-[minmax(0,0.3fr)_minmax(0,0.7fr)] lg:items-stretch min-h-[600px]">
-                  <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card lg:h-full">
-                    <AnimatePresence mode="wait">
-                      <motion.img
-                        key={`${activeDivision.id}-hero`}
-                        src={activeDivisionImage?.src}
-                        alt={activeDivision.title}
-                        loading="lazy"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.34, ease: "easeInOut" }}
-                        className="h-[240px] w-full object-cover md:h-[300px] lg:h-full lg:min-h-[600px]"
-                      />
-                    </AnimatePresence>
-                  </div>
-
-                  <div className="rounded-2xl border border-border bg-card p-4 md:p-5 lg:flex lg:flex-col lg:justify-between lg:h-full lg:min-h-[600px]">
-                    <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
-                      <div>
-                        <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                          Division {activeDivisionIndex + 1}
-                        </p>
-                        <h2 className="text-xl font-bold leading-tight text-foreground md:text-2xl">
-                          {activeDivision.title}
                         </h2>
                       </div>
                     </div>
+                    <span className="p-1.5 rounded-lg bg-muted text-muted-foreground transition-colors shrink-0">
+                      {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                    </span>
+                  </button>
 
-                    <p className="text-justify text-sm leading-relaxed text-muted-foreground md:text-base">
-                      {activeDivision.description}
-                    </p>
+                  {/* Collapsible Expanded Content */}
+                  <AnimatePresence initial={false}>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35, ease: "easeInOut" }}
+                        className="overflow-hidden bg-card"
+                      >
+                        <div className="p-5 md:p-6 border-t border-border space-y-6">
+                          <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:items-stretch">
+                            {/* Division Image */}
+                            <div className="overflow-hidden rounded-2xl border border-border bg-muted flex items-stretch">
+                              <img
+                                src={divisionImage?.src}
+                                alt={division.title}
+                                loading="lazy"
+                                className="w-full h-48 md:h-full object-cover transition-transform duration-500 hover:scale-105"
+                              />
+                            </div>
 
-                    <div className="mt-4">
-                      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                        Key Services
-                      </p>
-                      <ul className="grid gap-2 sm:grid-cols-2">
-                        {activeDivision.services.map((service) => (
-                          <li
-                            key={service}
-                            className="flex items-start gap-2 text-sm text-foreground"
-                          >
-                            <Check size={15} className="mt-0.5 shrink-0 text-ionic-blue" />
-                            <span>{service}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    {/* Trusted By moved into the right column so logos appear beside the image */}
-                    <div className="mt-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                        Trusted By
-                      </p>
+                            {/* Details Column */}
+                            <div className="rounded-2xl border border-border bg-background/50 p-5 md:p-6 flex flex-col justify-between space-y-6">
+                              {/* Description */}
+                              <div className="space-y-2">
+                                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                                  Overview
+                                </p>
+                                <p className="text-justify text-sm leading-relaxed text-muted-foreground md:text-base">
+                                  {division.description}
+                                </p>
+                              </div>
 
-                      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-3 py-1 justify-items-stretch overflow-visible">
-                        {visiblePartners.map((partnerImage, index) => (
-                          <figure
-                            key={partnerImage.fileName}
-                            className="group relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden bg-transparent p-2 min-h-[130px]"
-                          >
-                            <img
-                              src={partnerImage.src}
-                              alt={`${activeDivision.shortTitle} partner ${index + 1}`}
-                              loading="lazy"
-                              className="h-full w-full object-contain object-center"
-                            />
-                            <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-[11px] font-semibold text-foreground opacity-0 shadow-elevated transition-all duration-200 group-hover:opacity-100 group-hover:-translate-y-0.5">
-                              {visiblePartnerNames[index]}
-                            </span>
-                          </figure>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                              {/* Key Services */}
+                              <div className="space-y-3">
+                                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                                  Key Services
+                                </p>
+                                <ul className="grid gap-2 sm:grid-cols-2">
+                                  {division.services.map((service) => (
+                                    <li
+                                      key={service}
+                                      className="flex items-start gap-2.5 text-sm text-foreground"
+                                    >
+                                      <Check size={15} className="mt-0.5 shrink-0 text-ionic-blue" />
+                                      <span>{service}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+
+                              {/* Trusted By Partners */}
+                              {activePartnerImages.length > 0 && (
+                                <div className="space-y-3 pt-2">
+                                  <div className="flex items-center justify-between">
+                                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                                      Trusted By
+                                    </p>
+                                    {hasMorePartners && (
+                                      <button
+                                        type="button"
+                                        onClick={() => togglePartners(division.id)}
+                                        className="text-xs font-bold text-ionic-blue hover:underline focus:outline-none"
+                                      >
+                                        {isShowingAllPartners ? "Show Less" : `Show All (${activePartnerImages.length})`}
+                                      </button>
+                                    )}
+                                  </div>
+
+                                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-1 justify-items-center">
+                                    {visiblePartners.map((partnerImage, partnerIdx) => {
+                                      const hoverLabel =
+                                        partnerHoverLabelsByDivision[division.id]?.[partnerIdx] ??
+                                        division.clients[partnerIdx] ??
+                                        `Client ${partnerIdx + 1}`;
+
+                                      return (
+                                        <figure
+                                          key={partnerImage.fileName}
+                                          className="group relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-xl border border-border bg-white p-2 min-h-[90px] shadow-sm hover:shadow transition-shadow"
+                                        >
+                                          <img
+                                            src={partnerImage.src}
+                                            alt={`${division.shortTitle} partner ${partnerIdx + 1}`}
+                                            loading="lazy"
+                                            className="h-full w-full object-contain object-center"
+                                          />
+                                          <span className="pointer-events-none absolute left-1/2 bottom-full mb-2 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1.5 text-[10px] font-semibold text-foreground opacity-0 shadow-elevated transition-all duration-200 group-hover:opacity-100 group-hover:-translate-y-0.5 z-20">
+                                            {hoverLabel}
+                                          </span>
+                                        </figure>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-
-                {/* Trusted By moved into right column; bottom block removed */}
-              </motion.div>
-            </AnimatePresence>
-          </article>
+              );
+            })}
+          </div>
         </div>
       </section>
 

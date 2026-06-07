@@ -1,7 +1,9 @@
-import { Facebook, Mail, MapPin, Phone } from "lucide-react";
+import { Facebook, Mail, MapPin, Phone, Download } from "lucide-react";
 import { ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import ionicLogo from "@/assets/ionic-logo-short.png";
+import brochurePdf from "@/assets/company-profile/IONIC-Brochure.pdf";
+import companyProfilePdf from "@/assets/company-profile/IONIC-Company Profile.pdf";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -14,6 +16,7 @@ const Footer = () => {
     { label: "Divisions", to: "/divisions" },
     { label: "What We Offer", to: "/what_we_offer" },
     { label: "Contact Us", to: "/contact_us" },
+    { label: "Privacy Policy", to: "/privacy_policy" },
   ];
 
   const products = [
@@ -55,10 +58,10 @@ const Footer = () => {
   return (
     <footer className="gradient-dark-blue px-4 pb-1 pt-8 md:px-8">
       <div className="container-narrow">
-        <div className="grid gap-10 md:gap-8 md:grid-cols-4 items-start md:justify-items-start">
+        <div className="grid gap-10 md:gap-8 md:grid-cols-2 lg:grid-cols-5 items-start md:justify-items-start">
           {/* Logo Column */}
           <div className="flex items-center gap-5 md:justify-self-start">
-            <img src={ionicLogo} alt="IONIC Logo" className="h-40 w-40" />
+            <img src={ionicLogo} alt="IONIC Logo" className="h-24 md:h-32 lg:h-40 w-auto" />
           </div>
 
           {/* Site Map */}
@@ -122,6 +125,35 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Resources */}
+          <div className="text-primary-foreground w-full">
+            <h3 className="text-base font-semibold mb-4">Resources</h3>
+            <ul className="grid gap-3 text-sm text-primary-foreground/80">
+              <li className="flex items-center justify-between gap-2 max-w-[200px]">
+                <span>Company Brochure</span>
+                <a
+                  href={brochurePdf}
+                  download="IONIC-Brochure.pdf"
+                  className="p-1.5 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground transition-colors flex items-center justify-center shadow-sm"
+                  title="Download Company Brochure"
+                >
+                  <Download size={14} />
+                </a>
+              </li>
+              <li className="flex items-center justify-between gap-2 max-w-[200px]">
+                <span>Company Profile</span>
+                <a
+                  href={companyProfilePdf}
+                  download="IONIC-Company Profile.pdf"
+                  className="p-1.5 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground transition-colors flex items-center justify-center shadow-sm"
+                  title="Download Company Profile"
+                >
+                  <Download size={14} />
+                </a>
+              </li>
+            </ul>
+          </div>
+
           {/* Contact Details */}
           <div className="text-primary-foreground">
             <h3 className="text-base font-semibold mb-4">Contact Details</h3>
@@ -161,10 +193,17 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-4">
-          <p className="text-primary-foreground/50 text-xs text-center">
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-primary-foreground/10 pt-6">
+          <p className="text-primary-foreground/50 text-xs text-center sm:text-left">
             © {new Date().getFullYear()} Impact One Nation Industrial Corporation. All rights reserved.
           </p>
+          <Link
+            to="/privacy_policy"
+            onClick={scrollToTop}
+            className="text-primary-foreground/50 hover:text-primary-foreground text-xs transition-colors"
+          >
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </footer>

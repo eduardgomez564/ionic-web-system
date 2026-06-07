@@ -2,16 +2,36 @@ import { useState } from "react";
 import { CalendarCheck, CheckCircle } from "lucide-react";
 import StickyHeader from "@/components/StickyHeader";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 import emailjs from "@emailjs/browser";
 
+const products = [
+  // Products
+  "Not Applicable",
+  "AQUATRACT CT Series",
+  "AQUATRACT CT-4000/4210",
+  "AQUATRACT BT-2100",
+  "CSM Membranes & ANOW Filters",
+  "LUPROMAX Series",
+  "VAPPRO Products",
+  "Lenntech Systems",
+  "Italmatch Chemicals",
+  "BWA Water Additives",
+  "Castrol Magna SW Series",
+  "Castrol Industrial Lubricants",
+  "Others / Not Sure Yet",
+];
+
 const services = [
+  // Services
+  "Not Applicable",
   "Water Treatment (Cooling Tower / Boiler / RO)",
   "Wastewater Treatment System",
   "Plant Preventive Maintenance",
   "Air Conditioning Installation & Servicing",
   "Oil, Grease & Lubricant Supply",
   "Oil Spill Response",
-  "Other / Not Sure Yet",
+  "Others / Not Sure Yet",
 ];
 
 const initialForm = {
@@ -22,7 +42,8 @@ const initialForm = {
   email: "",
   phone: "",
   landline: "",
-  service: "",
+  services: [""], // Array of services
+  products: [""], // Array of products
   date: "",
   time: "",
   description: "",
@@ -57,15 +78,22 @@ function getEmailErrorMessage(error: unknown): string {
 }
 
 function buildEmailPayload(form: FormData, recipientEmail: string) {
-  const requesterName = `${form.firstName} ${form.lastName}`.trim();
-    const formattedDate = formatDateReadable(form.date);
+  const miPart = form.mi ? `${form.mi.trim()} ` : "";
+  const requesterName = `${form.firstName} ${miPart}${form.lastName}`.trim();
+  const formattedDate = formatDateReadable(form.date);
   const formattedTime = formatTimeReadable(form.time);
+  
+  // Filter valid services/products
+  const validServices = form.services.filter(s => s.trim()).join(", ");
+  const validProducts = form.products.filter(p => p.trim()).join(", ");
+  
   const appointmentSummary = [
     `Company / Facility: ${form.company || "N/A"}`,
     `Email: ${form.email}`,
     `Phone: ${form.phone}`,
     `Landline: ${form.landline || "N/A"}`,
-    `Service: ${form.service}`,
+    `Services: ${validServices || "N/A"}`,
+    `Products: ${validProducts || "N/A"}`,
     `Date: ${formattedDate}`,
     `Time: ${formattedTime}`,
     `Description: ${form.description || "N/A"}`,
@@ -85,7 +113,10 @@ function buildEmailPayload(form: FormData, recipientEmail: string) {
     mi: form.mi,
     phone: form.phone,
     landline: form.landline,
-    service: form.service,
+    service: validServices,
+    services: validServices,
+    product: validProducts,
+    products: validProducts,
     date: formattedDate,
     time: formattedTime,
     description: form.description,
@@ -143,6 +174,9 @@ function validate(form: FormData): FormErrors {
   if (form.mi && !/^[A-Za-z]\.?$/.test(form.mi.trim()))
     errors.mi = "M.I. must be a single letter.";
 
+  if (!form.company.trim())
+    errors.company = "Company / Industry is required.";
+
   if (!form.email.trim())
     errors.email = "Email address is required.";
   else if (!emailRegex.test(form.email))
@@ -155,6 +189,26 @@ function validate(form: FormData): FormErrors {
 
   if (form.landline && !landlineRegex.test(form.landline))
     errors.landline = "Enter a valid landline number (e.g. 02-8806-2048).";
+
+  // Validate services: at least one service required
+  const hasValidService = form.services.some(s => s.trim().length > 0);
+  if (!hasValidService)
+    errors.services = "At least one service is required.";
+
+  // Validate products: at least one product required
+  const hasValidProduct = form.products.some(p => p.trim().length > 0);
+  if (!hasValidProduct)
+    errors.products = "At least one product is required.";
+
+  if (!form.description.trim())
+    errors.description = "Description is required.";
+  else {
+    // Count words (split on whitespace, filter out empty strings)
+    const wordCount = form.description.trim().split(/\s+/).filter(word => word.length > 0).length;
+    if (wordCount < 5) {
+      errors.description = "Description must be at least 5 words.";
+    }
+  }
 
   return errors;
 }
@@ -186,6 +240,56 @@ const Appointment = () => {
 
   const blockDigits = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (/\d/.test(e.key)) e.preventDefault();
+  };
+
+  // Functions for managing services
+  const addService = () => {
+    setForm(prev => ({ ...prev, services: [...prev.services, ""] }));
+  };
+
+  const removeService = (index: number) => {
+    if (form.services.length > 1) {
+      setForm(prev => ({
+        ...prev,
+        services: prev.services.filter((_, i) => i !== index),
+      }));
+    }
+  };
+
+  const updateService = (index: number, value: string) => {
+    setForm(prev => {
+      const newServices = [...prev.services];
+      newServices[index] = value;
+      return { ...prev, services: newServices };
+    });
+    if (errors.services) {
+      setErrors(prev => ({ ...prev, services: undefined }));
+    }
+  };
+
+  // Functions for managing products
+  const addProduct = () => {
+    setForm(prev => ({ ...prev, products: [...prev.products, ""] }));
+  };
+
+  const removeProduct = (index: number) => {
+    if (form.products.length > 1) {
+      setForm(prev => ({
+        ...prev,
+        products: prev.products.filter((_, i) => i !== index),
+      }));
+    }
+  };
+
+  const updateProduct = (index: number, value: string) => {
+    setForm(prev => {
+      const newProducts = [...prev.products];
+      newProducts[index] = value;
+      return { ...prev, products: newProducts };
+    });
+    if (errors.products) {
+      setErrors(prev => ({ ...prev, products: undefined }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -271,7 +375,7 @@ const Appointment = () => {
               <CheckCircle className="text-ionic-blue" size={56} />
               <h2 className="text-2xl font-bold text-foreground">Appointment Request Sent!</h2>
               <p className="text-muted-foreground max-w-sm">
-                Thank you, <strong>{form.firstName} {form.lastName}</strong>. We've received your request and will reach out to you at <strong>{form.email}</strong> shortly.
+                Thank you, <strong>{form.firstName} {form.mi ? `${form.mi.trim()} ` : ""}{form.lastName}</strong>. We've received your request and will reach out to you at <strong>{form.email}</strong> shortly.
               </p>
               <button
                 onClick={() => { setForm(initialForm); setErrors({}); setSubmitted(false); }}
@@ -286,7 +390,7 @@ const Appointment = () => {
               {/* ── Personal Details ── */}
               <div className="space-y-4">
                 <SectionLabel>Personal Details</SectionLabel>
-                <div className="grid gap-4 grid-cols-[1fr_1fr_0.30fr]">
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-[1fr_1fr_0.30fr]">
                   <div className="space-y-1.5">
                     <label className="text-sm font-medium text-foreground">First Name {req}</label>
                     <input name="firstName" value={form.firstName} onChange={handleChange} onKeyDown={blockDigits} placeholder="Ex: Juan" className={ic("firstName")} />
@@ -304,8 +408,9 @@ const Appointment = () => {
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Company / Facility</label>
+                  <label className="text-sm font-medium text-foreground">Company / Industry {req}</label>
                   <input name="company" value={form.company} onChange={handleChange} placeholder="Ex: ABC Corporation" className={ic("company")} />
+                  <Err field="company" />
                 </div>
               </div>
 
@@ -336,30 +441,99 @@ const Appointment = () => {
               <div className="border-t border-border" />
 
               {/* ── Appointment Details ── */}
-              <div className="space-y-4">
-                <SectionLabel>Appointment Details</SectionLabel>
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Service Needed {req}</label>
-                  <select required name="service" value={form.service} onChange={handleChange} className={ic("service")}>
-                    <option value="" disabled>Select a service...</option>
-                    {services.map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
+              <SectionLabel>Appointment Details</SectionLabel>
+
+              {/* Products */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-medium text-foreground">Product{req}</label>
+                  <button
+                    type="button"
+                    onClick={addProduct}
+                    className="text-xs font-semibold text-ionic-blue hover:text-ionic-blue/80 transition-colors flex items-center gap-1"
+                  >
+                    + Add Another
+                  </button>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
+                {form.products.map((product, index) => (
+                  <div key={`product-${index}`} className="flex gap-2">
+                    <select
+                      required
+                      value={product}
+                      onChange={(e) => updateProduct(index, e.target.value)}
+                      className={ic("products") + " flex-1"}
+                    >
+                      <option value="" disabled>Select a product...</option>
+                      {products.map((p) => <option key={p} value={p}>{p}</option>)}
+                    </select>
+                    {form.products.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeProduct(index)}
+                        className="p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <Err field="products" />
+              </div>
+
+              {/* Services */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-medium text-foreground">Service{req}</label>
+                  <button
+                    type="button"
+                    onClick={addService}
+                    className="text-xs font-semibold text-ionic-blue hover:text-ionic-blue/80 transition-colors flex items-center gap-1"
+                  >
+                    + Add Another
+                  </button>
+                </div>
+                {form.services.map((service, index) => (
+                  <div key={`service-${index}`} className="flex gap-2">
+                    <select
+                      required
+                      value={service}
+                      onChange={(e) => updateService(index, e.target.value)}
+                      className={ic("services") + " flex-1"}
+                    >
+                      <option value="" disabled>Select a service...</option>
+                      {services.map((s) => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                    {form.services.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeService(index)}
+                        className="p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <Err field="services" />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
                     <label className="text-sm font-medium text-foreground">Date {req}</label>
                     <input required type="date" name="date" value={form.date} onChange={handleChange} min={new Date().toISOString().split("T")[0]} className={ic("date")} />
                   </div>
+
                   <div className="space-y-1.5">
                     <label className="text-sm font-medium text-foreground">Time {req}</label>
                     <input required type="time" name="time" value={form.time} onChange={handleChange} className={ic("time")} />
                   </div>
                 </div>
+                
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Description</label>
+                  <label className="text-sm font-medium text-foreground">Description {req}</label>
                   <textarea name="description" value={form.description} onChange={handleChange} rows={4} placeholder="Describe your facility, current issues, or anything else we should know..." className={ic("description") + " resize-none"} />
+                  <Err field="description" />
                 </div>
-              </div>
 
               {submitError && (
                 <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
@@ -382,6 +556,7 @@ const Appointment = () => {
         </div>
       </main>
       <Footer />
+      <BackToTop />
     </>
   );
 };

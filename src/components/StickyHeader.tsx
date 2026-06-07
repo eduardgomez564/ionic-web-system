@@ -28,7 +28,32 @@ const navItems = [
   {
     label: "Divisions",
     to: "/divisions",
-    sections: [],
+    sections: [
+      {
+        label: "Industrial Cooling & Water Treatment",
+        to: "/divisions#industrial-cooling-boiler-ro-water-treatment-division",
+      },
+      {
+        label: "Airconditioning",
+        to: "/divisions#airconditioning-division",
+      },
+      {
+        label: "Preventive Chemicals",
+        to: "/divisions#preventive-maintenance-chemicals-division",
+      },
+      {
+        label: "Wastewater Treatment",
+        to: "/divisions#wastewater-treatment-division",
+      },
+      {
+        label: "Oil, Grease & Lubricants",
+        to: "/divisions#oil-grease-and-lubricant-division",
+      },
+      {
+        label: "Oil Spill Supplies",
+        to: "/divisions#oil-spill-supplies-division",
+      },
+    ],
   },
   {
     label: "What We Offer",

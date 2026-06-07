@@ -29,7 +29,7 @@ const ContactUs = () => {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mb-3">
               Contact <span className="text-gradient-blue">Us</span>
             </h1>
-            <p className="text-muted-foreground text-lg max-w-xl">
+            <p className="text-muted-foreground text-lg">
               Reach out for consultations, service requests, or product inquiries. Our team is ready to assist you.
             </p>
           </div>
@@ -46,7 +46,7 @@ const ContactUs = () => {
                 <div>
                   <p className="text-sm font-semibold text-foreground mb-0.5">Office Address</p>
                   <p className="text-muted-foreground leading-relaxed">
-                    Blk 9 Lot 6, Banuyo Rd, Pilar Village,<br />Las Piñas City
+                    Blk 9 Lot 6, Banuyo Rd, Pilar Village, Las Piñas City
                   </p>
                 </div>
               </div>

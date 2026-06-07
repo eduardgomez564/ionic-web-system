@@ -9,6 +9,7 @@ import Divisions from "./pages/divisions.tsx";
 import WhatWeOffer from "./pages/what_we_offer.tsx";
 import ContactUs from "./pages/contact_us.tsx";
 import Appointment from "./pages/appointment.tsx";
+import PrivacyPolicy from "./pages/privacy_policy.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/what_we_offer" element={<WhatWeOffer />} />
           <Route path="/contact_us" element={<ContactUs />} />
           <Route path="/appointment" element={<Appointment />} />
+          <Route path="/privacy_policy" element={<PrivacyPolicy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
