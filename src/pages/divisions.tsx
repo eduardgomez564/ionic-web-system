@@ -17,6 +17,7 @@ import {
 
 import StickyHeader from "@/components/StickyHeader";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 
 type Division = {
   id: string;
@@ -586,6 +587,7 @@ const Divisions = () => {
       </section>
 
       <Footer />
+      <BackToTop />
     </>
   );
 };

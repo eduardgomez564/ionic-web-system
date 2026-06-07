@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import StickyHeader from "@/components/StickyHeader";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 import heroBg3 from "@/assets/hero-bg-3.jpg";
 
 const whyChooseCards = [
@@ -255,6 +256,7 @@ const AboutUs = () => {
       </div>
     </section>
 	<Footer />
+    <BackToTop />
   </>
   );
 };

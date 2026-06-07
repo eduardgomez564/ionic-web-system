@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Droplets, FlaskConical, ShieldCheck, Sparkles, Thermometer, Wrench, ChevronLeft, ChevronRight } from "lucide-react";
 import StickyHeader from "@/components/StickyHeader";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 
 const products = [
 	{
@@ -469,6 +470,7 @@ const WhatWeOffer = () => {
 				</section>
 			</main>
 			<Footer />
+			<BackToTop />
 		</>
 	);
 };
