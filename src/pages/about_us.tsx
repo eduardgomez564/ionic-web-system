@@ -5,6 +5,26 @@ import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import heroBg3 from "@/assets/hero-bg-3.jpg";
 
+// ── Static imports so Vite fingerprints and bundles these in production ──
+import p1A from "@/assets/ionic-partnerships/1A.png";
+import p1B from "@/assets/ionic-partnerships/1B.png";
+import p1C from "@/assets/ionic-partnerships/1C.png";
+import p1D from "@/assets/ionic-partnerships/1D.png";
+import p1E from "@/assets/ionic-partnerships/1E.png";
+import p2A from "@/assets/ionic-partnerships/2A.png";
+import p2B from "@/assets/ionic-partnerships/2B.png";
+import p2C from "@/assets/ionic-partnerships/2C.png";
+import p3A from "@/assets/ionic-partnerships/3A.png";
+import p3B from "@/assets/ionic-partnerships/3B.png";
+import p3C from "@/assets/ionic-partnerships/3C.png";
+import p3D from "@/assets/ionic-partnerships/3D.png";
+import p4A from "@/assets/ionic-partnerships/4A.png";
+import p4D from "@/assets/ionic-partnerships/4D.png";
+import p5C from "@/assets/ionic-partnerships/5C.png";
+import p6A from "@/assets/ionic-partnerships/6A.png";
+import p6B from "@/assets/ionic-partnerships/6B.png";
+import p6C from "@/assets/ionic-partnerships/6C.png";
+
 const whyChooseCards = [
   {
     title: "Proven Experience",
@@ -29,24 +49,24 @@ const whyChooseCards = [
 ];
 
 const trustedClients = [
-  { name: "PNOC The Energy Comp.", img: "1A" },
-  { name: "San Miguel Global Power", img: "1B" },
-  { name: "DMCI Power Corp.", img: "1C" },
-  { name: "Semirara Mining & Power Corp.", img: "1D" },
-  { name: "CSi Malls", img: "1E" },
-  { name: "Office of the President of the Philippines", img: "2A" },
-  { name: "National Museum", img: "2B" },
-  { name: "Bangko Sentral ng Pilipinas", img: "2C" },
-  { name: "Carmelray Industrial Corp.", img: "3A" },
-  { name: "Southwest Luzon Power Generation Corp.", img: "3B" },
-  { name: "Continental AG", img: "3C" },
-  { name: "AG&P Refueled. To You.", img: "3D" },
-  { name: "Cultural Center of the Philippines", img: "4A" },
-  { name: "Magic Mall Urdaneta", img: "4D" },
-  { name: "Automated Technology Phil. Inc.", img: "5C" },
-  { name: "San Nicholas Lines, Inc.", img: "6A" },
-  { name: "Pherwin Shipping Corp.", img: "6B" },
-  { name: "Philippine Coast Guard", img: "6C" },
+  { name: "PNOC The Energy Comp.", img: p1A },
+  { name: "San Miguel Global Power", img: p1B },
+  { name: "DMCI Power Corp.", img: p1C },
+  { name: "Semirara Mining & Power Corp.", img: p1D },
+  { name: "CSi Malls", img: p1E },
+  { name: "Office of the President of the Philippines", img: p2A },
+  { name: "National Museum", img: p2B },
+  { name: "Bangko Sentral ng Pilipinas", img: p2C },
+  { name: "Carmelray Industrial Corp.", img: p3A },
+  { name: "Southwest Luzon Power Generation Corp.", img: p3B },
+  { name: "Continental AG", img: p3C },
+  { name: "AG&P Refueled. To You.", img: p3D },
+  { name: "Cultural Center of the Philippines", img: p4A },
+  { name: "Magic Mall Urdaneta", img: p4D },
+  { name: "Automated Technology Phil. Inc.", img: p5C },
+  { name: "San Nicholas Lines, Inc.", img: p6A },
+  { name: "Pherwin Shipping Corp.", img: p6B },
+  { name: "Philippine Coast Guard", img: p6C },
 ];
 
 const AboutUs = () => {
@@ -237,7 +257,7 @@ const AboutUs = () => {
                 key={`r1-${idx}`}
                 className="flex-shrink-0 flex flex-col items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 w-60 hover:bg-white/10 transition-colors"
               >
-                <img src={`/src/assets/ionic-partnerships/${client.img}.png`} alt={client.name} style={{ height: "5rem" }} className="w-full object-contain" />
+                <img src={client.img} alt={client.name} style={{ height: "5rem" }} className="w-full object-contain" />
                 <p className="text-primary-foreground/80 font-medium text-center text-sm leading-snug">{client.name}</p>
               </div>
             ))}
@@ -250,7 +270,7 @@ const AboutUs = () => {
                 key={`r2-${idx}`}
                 className="flex-shrink-0 flex flex-col items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 w-60 hover:bg-white/10 transition-colors"
               >
-                <img src={`/src/assets/ionic-partnerships/${client.img}.png`} alt={client.name} style={{ height: "5rem" }} className="w-full object-contain" />
+                <img src={client.img} alt={client.name} style={{ height: "5rem" }} className="w-full object-contain" />
                 <p className="text-primary-foreground/80 font-medium text-center text-sm leading-snug">{client.name}</p>
               </div>
             ))}

@@ -47,6 +47,8 @@ const initialForm = {
   date: "",
   time: "",
   description: "",
+  // Honeypot — never filled by real users
+  sub_billing_id: "",
 };
 
 type FormData = typeof initialForm;
@@ -296,6 +298,13 @@ const Appointment = () => {
     e.preventDefault();
     setSubmitError("");
 
+    // ── Honeypot check: bots fill hidden fields, humans don't ──
+    if (form.sub_billing_id) {
+      // Silently simulate success so the bot thinks it worked
+      setSubmitted(true);
+      return;
+    }
+
     const errs = validate(form);
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
@@ -386,6 +395,18 @@ const Appointment = () => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="rounded-2xl border border-border bg-card p-8 shadow-card space-y-8">
+
+              {/* ── Honeypot anti-spam trap (invisible to humans) ── */}
+              <input
+                type="text"
+                name="sub_billing_id"
+                value={form.sub_billing_id}
+                onChange={handleChange}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute left-[-9999px] top-0 h-0 w-0 overflow-hidden opacity-0 pointer-events-none"
+              />
 
               {/* ── Personal Details ── */}
               <div className="space-y-4">

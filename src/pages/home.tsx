@@ -211,7 +211,7 @@ const Home = () => {
       </section>
 
       <section id="get-assessment" className="min-h-screen bg-background flex items-center scroll-mt-24">
-        <div className="container-narrow px-4 md:px-8 py-16 md:py-24 lg:py-24 w-full grid gap-10 md:grid-cols-2 items-center">
+        <div className="container-narrow px-4 md:px-8 py-16 md:py-24 lg:py-24 w-full grid gap-20 md:grid-cols-2 items-center">
           <div className="order-2 md:order-1">
             <iframe
               title="Impact One Nation Industrial Corporation location"
