@@ -63,7 +63,7 @@ const emailConfig = {
   notifyTemplateId: import.meta.env.VITE_EMAILJS_NOTIFY_TEMPLATE_ID,
   publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
 };
-const companyEmail = import.meta.env.VITE_IONIC_NOTIFICATION_EMAIL ?? "eduardgomez564@gmail.com";
+const companyEmail = import.meta.env.VITE_IONIC_NOTIFICATION_EMAIL ?? "riananadura1@gmail.com";
 
 function isMissingEmailConfig(value?: string): boolean {
   return !value || value.startsWith("your_");

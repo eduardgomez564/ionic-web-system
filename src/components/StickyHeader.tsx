@@ -12,7 +12,7 @@ const navItems = [
     sections: [
       { label: "Our Solutions", to: "/#solutions" },
       { label: "How It Works", to: "/#how-it-works" },
-      { label: "Get Assessment", to: "/#get-assessment" },
+      { label: "Visit Office", to: "/#get-assessment" },
     ],
   },
   {

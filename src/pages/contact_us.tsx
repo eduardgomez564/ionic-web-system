@@ -70,23 +70,6 @@ const ContactUs = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Mobile */}
-                <div className="flex gap-4">
-                  <div className="h-11 w-11 flex-shrink-0 rounded-xl bg-gradient-to-br from-ionic-orange to-ionic-orange/60 flex items-center justify-center shadow-md">
-                    <Smartphone className="text-white" size={20} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground mb-2">Mobile</p>
-                    <div className="space-y-1">
-                      {[{ network: "Globe", number: "0917 854 9790" }, { network: "Smart", number: "0947 801 7594" }].map((m) => (
-                        <p key={m.number} className="text-muted-foreground">
-                          <span className="font-medium text-foreground mr-2">{m.network}</span>{m.number}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 

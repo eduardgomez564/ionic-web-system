@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Building, CalendarCheck, ClipboardCheck, Droplets, Fan, Factory, Hospital, Hotel, Recycle, Settings, ShieldCheck, Wrench, Zap } from "lucide-react";
+import { Building, CalendarCheck, ClipboardCheck, Droplets, Fan, Factory, Hospital, Hotel, MapPin, Recycle, Settings, ShieldCheck, Wrench, Zap } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 import heroBg1 from "@/assets/hero-bg-1.jpg";
@@ -129,7 +129,7 @@ const Home = () => {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground leading-tight mb-6 text-center lg:text-left">
               Optimize Your Water Systems. <span className="text-gradient-orange">Prevent Costly Downtime.</span>
             </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-xl leading-relaxed text-center lg:text-left">
+            <p className="text-lg text-justify md:text-xl text-primary-foreground/80 mb-10 max-w-xl leading-relaxed lg:text-left">
               End-to-end water treatment and industrial maintenance solutions tailored for your facility.
             </p>
             <div className="flex flex-col items-center lg:items-start sm:flex-row gap-4">
@@ -165,7 +165,7 @@ const Home = () => {
               Comprehensive industrial solutions from chemicals and equipment to installation, maintenance, and compliance.
             </p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 text-justify sm:grid-cols-2 lg:grid-cols-3">
             {solutions.map((solution) => (
               <div key={solution.title} className="bg-card rounded-lg p-4 shadow-card hover:shadow-elevated transition-all group border border-border">
                 <div className="flex items-center gap-3 mb-2">
@@ -224,13 +224,27 @@ const Home = () => {
           </div>
           <div className="order-1 md:order-2 text-center md:text-left">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mb-6 text-center lg:text-left">Start With an <span className="text-gradient-blue">Assessment</span></h2>
-            <p className="text-muted-foreground max-w-xl mb-10 text-lg text-center lg:text-left">
-              Get a comprehensive assessment of your water treatment systems and a customized plan to reduce costs and improve efficiency.
+            <p className="text-muted-foreground text-justify max-w-xl mb-10 text-lg lg:text-left">
+              Get a comprehensive assessment of your water treatment systems and a customized plan.
             </p>
-            <Link to="/appointment" className="gradient-blue text-accent-foreground px-10 py-5 rounded-xl text-lg font-bold hover:opacity-90 transition-opacity shadow-elevated inline-flex items-center gap-3">
-              <CalendarCheck size={22} />
-              Book Your Appointment Now!
-            </Link>
+            <div className="grid gap-4 text-left">
+              <div className="flex gap-3 rounded-lg border border-border bg-card p-4 shadow-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map-pinned h-4 w-4" aria-hidden="true"><path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"></path><circle cx="12" cy="8" r="2"></circle><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"></path></svg>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-700/80">Our Office</p>
+                  <h3 className="text-lg font-semibold text-foreground">Impact One Nation Industrial Corporation</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">Blk 9 Lot 6, Banuyo Rd, Pilar Village, Las Piñas City</p>
+                </div>
+              </div>
+              <div className="flex gap-3 rounded-lg border border-border bg-card p-4 shadow-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-clock3 lucide-clock-3 h-4 w-4" aria-hidden="true"><path d="M12 6v6h4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-700/80">Office Hours</p>
+                  <h3 className="text-lg font-semibold text-foreground">Monday to Friday</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">8:00 AM to 5:00 PM</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

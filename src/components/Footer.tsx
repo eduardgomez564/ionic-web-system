@@ -171,9 +171,6 @@ const Footer = () => {
                   <div>(632) 8806 2048</div>
                   <div>(632) 8805 2959</div>
                   <div>(632) 8800 9104</div>
-                  <div className="mt-2 font-semibold text-primary-foreground/90">Mobile</div>
-                  <div>Globe 0917 854 9790</div>
-                  <div>Smart 0947 801 7594</div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
