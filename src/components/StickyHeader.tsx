@@ -1,4 +1,4 @@
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ionicLogo from "@/assets/ionic-logo.png";
@@ -78,10 +78,26 @@ const mobileNavLinkClassName =
 const StickyHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openItem, setOpenItem] = useState<string | null>(null);
+  const [mobileOpenItem, setMobileOpenItem] = useState<string | null>(null);
 
-  const closeMenu = () => setMenuOpen(false);
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setMobileOpenItem(null);
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen((prev) => {
+      const next = !prev;
+      if (!next) setMobileOpenItem(null);
+      return next;
+    });
+  };
+
   const setHoveredItem = (label: string) => setOpenItem(label);
   const clearHoveredItem = () => setOpenItem(null);
+
+  const toggleMobileItem = (label: string) =>
+    setMobileOpenItem((prev) => (prev === label ? null : label));
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-border">
@@ -122,40 +138,69 @@ const StickyHeader = () => {
           >
             Book your Appointment
           </Link>
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2 text-foreground">
+          <button onClick={toggleMenu} className="md:hidden p-2 text-foreground">
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
       {menuOpen && (
         <div className="md:hidden bg-card border-t border-border px-4 py-4 space-y-3">
-          {navItems.map((item) => (
-            <div key={item.label} className="rounded-xl border border-border bg-background/70 p-3">
-              <NavLink
-                to={item.to}
-                end={item.end}
-                className={mobileNavLinkClassName}
-                activeClassName="text-primary"
-                onClick={closeMenu}
-              >
-                {item.label}
-              </NavLink>
-              {item.sections?.length ? (
-                <div className="mt-2 grid gap-1 border-l border-border pl-4">
-                  {item.sections.map((section) => (
-                    <Link
-                      key={section.to}
-                      to={section.to}
-                      onClick={closeMenu}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          {navItems.map((item) => {
+            const hasSections = !!item.sections?.length;
+            const isOpen = mobileOpenItem === item.label;
+
+            return (
+              <div key={item.label} className="rounded-xl border border-border bg-background/70 p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <NavLink
+                    to={item.to}
+                    end={item.end}
+                    className={`${mobileNavLinkClassName} flex-1`}
+                    activeClassName="text-primary"
+                    onClick={closeMenu}
+                  >
+                    {item.label}
+                  </NavLink>
+                  {hasSections && (
+                    <button
+                      type="button"
+                      onClick={() => toggleMobileItem(item.label)}
+                      aria-expanded={isOpen}
+                      aria-label={`Toggle ${item.label} submenu`}
+                      className="shrink-0 rounded-lg p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     >
-                      {section.label}
-                    </Link>
-                  ))}
+                      <ChevronDown
+                        size={18}
+                        className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                  )}
                 </div>
-              ) : null}
-            </div>
-          ))}
+                {hasSections && (
+                  <div
+                    className={`grid transition-all duration-200 ease-in-out ${
+                      isOpen ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="grid gap-1 border-l border-border pl-4">
+                        {item.sections!.map((section) => (
+                          <Link
+                            key={section.to}
+                            to={section.to}
+                            onClick={closeMenu}
+                            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                          >
+                            {section.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
           <Link
             onClick={closeMenu}
             to="/appointment"

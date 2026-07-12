@@ -121,6 +121,7 @@ const WhatWeOffer = () => {
 	const { hash } = useLocation();
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+	const [isMobile, setIsMobile] = useState(false);
 
 	useEffect(() => {
 		if (!hash) {
@@ -153,6 +154,19 @@ const WhatWeOffer = () => {
 		return () => window.clearInterval(interval);
 	}, [isAutoPlaying]);
 
+	useEffect(() => {
+		const mediaQuery = window.matchMedia("(max-width: 767px)");
+
+		const updateIsMobile = () => {
+			setIsMobile(mediaQuery.matches);
+		};
+
+		updateIsMobile();
+		mediaQuery.addEventListener("change", updateIsMobile);
+
+		return () => mediaQuery.removeEventListener("change", updateIsMobile);
+	}, []);
+
 	const nextSlide = () => {
 		setIsAutoPlaying(false);
 		setCurrentIndex((prev) => (prev + 1) % productDistributors.length);
@@ -165,7 +179,9 @@ const WhatWeOffer = () => {
 
 	const getVisibleSlides = () => {
 		const slides = [];
-		for (let i = -2; i <= 2; i++) {
+		const range = isMobile ? 1 : 2;
+
+		for (let i = -range; i <= range; i++) {
 			const index = (currentIndex + i + productDistributors.length) % productDistributors.length;
 			slides.push({ ...productDistributors[index], offset: i });
 		}
@@ -227,26 +243,28 @@ const WhatWeOffer = () => {
 									<ChevronLeft size={20} />
 								</button>
 
-								<div className="flex-1 flex items-center justify-center min-h-[200px] md:min-h-[240px]">
-									<div className="flex items-center justify-center gap-2 md:gap-4">
+								<div className="flex-1 flex items-center justify-center min-h-[170px] md:min-h-[240px] overflow-hidden px-2">
+									<div className="flex items-center justify-center gap-1 md:gap-4">
 										{getVisibleSlides().map((distributor) => {
 											const logoPath = Object.keys(productLogoModules).find((path) =>
 												path.includes(distributor.logoFile)
 											);
 											const logoSrc = logoPath ? productLogoModules[logoPath] : "/placeholder.svg";
 											const isCenter = distributor.offset === 0;
+											const centerScale = isMobile ? 1.1 : 1.5;
+											const sideScale = isMobile ? 0.7 : 0.6;
 
 											return (
 												<div
 													key={`${distributor.name}-${distributor.offset}`}
 													className={`flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${isCenter ? "z-20" : "z-10"}`}
 													style={{
-														transform: isCenter ? "scale(1.5)" : "scale(0.6)",
+														transform: isCenter ? `scale(${centerScale})` : `scale(${sideScale})`,
 														opacity: isCenter ? 1 : 0.3,
-														minWidth: isCenter ? "200px" : "90px",
+														minWidth: isCenter ? (isMobile ? "140px" : "200px") : (isMobile ? "72px" : "90px"),
 													}}
 												>
-													<div className="flex h-24 w-32 md:h-32 md:w-44 items-center justify-center">
+													<div className="flex h-20 w-24 md:h-32 md:w-44 items-center justify-center">
 														<img
 															src={logoSrc}
 															alt={distributor.name}

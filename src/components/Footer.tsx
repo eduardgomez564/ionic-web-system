@@ -59,134 +59,140 @@ const Footer = () => {
   return (
     <footer className="gradient-dark-blue px-4 pb-1 pt-8 md:px-8">
       <div className="container-narrow">
-        <div className="grid gap-10 md:gap-8 md:grid-cols-2 lg:grid-cols-5 items-start md:justify-items-start">
-          {/* Logo Column */}
-          <div className="flex flex-col items-center md:justify-self-start">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-2 md:gap-8 lg:grid-cols-5 items-start md:justify-items-start">
+          {/* Logo Column - full width on mobile, own column from md up */}
+          <div className="col-span-2 md:col-span-1 flex flex-col items-center md:justify-self-start">
             <img src={ionicLogo} alt="IONIC Logo" className="h-24 md:h-32 lg:h-40 w-auto" />
             <img src={ionicFullName} alt="IONIC Full Name" className="w-28 md:w-36 lg:w-44 h-auto" />
           </div>
 
-          {/* Site Map */}
-          <div className="text-primary-foreground">
-            <h3 className="text-base font-semibold mb-4">Site Map</h3>
-            <ul className="grid gap-2 text-sm text-primary-foreground/80">
-              {siteMap.map((item) => (
-                <li key={item.label}>
+          {/* Mobile column 1: Site Map + Products & Services. Becomes transparent from md up. */}
+          <div className="flex flex-col gap-8 md:contents">
+            {/* Site Map */}
+            <div className="text-primary-foreground">
+              <h3 className="text-base font-semibold mb-4">Site Map</h3>
+              <ul className="grid gap-2 text-sm text-primary-foreground/80">
+                {siteMap.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      to={item.to}
+                      onClick={scrollToTop}
+                      className="hover:text-primary-foreground transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Products & Services */}
+            <div className="text-primary-foreground">
+              <h3 className="text-base font-semibold mb-4">Products & Services</h3>
+              <ul className="grid gap-2 text-sm text-primary-foreground/80">
+                <li>
                   <Link
-                    to={item.to}
+                    to="/what_we_offer#products"
                     onClick={scrollToTop}
                     className="hover:text-primary-foreground transition-colors"
                   >
-                    {item.label}
+                    Products
                   </Link>
                 </li>
-              ))}
-            </ul>
+                <li>
+                  <Link
+                    to="/what_we_offer#distributors"
+                    onClick={scrollToTop}
+                    className="hover:text-primary-foreground transition-colors"
+                  >
+                    Distributed Brands
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/what_we_offer#supply"
+                    onClick={scrollToTop}
+                    className="hover:text-primary-foreground transition-colors"
+                  >
+                    Material Supplies
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/what_we_offer#services"
+                    onClick={scrollToTop}
+                    className="hover:text-primary-foreground transition-colors"
+                  >
+                    Services
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
 
-          {/* Products & Services */}
-          <div className="text-primary-foreground">
-            <h3 className="text-base font-semibold mb-4">Products & Services</h3>
-            <ul className="grid gap-2 text-sm text-primary-foreground/80">
-              <li>
-                <Link
-                  to="/what_we_offer#products"
-                  onClick={scrollToTop}
-                  className="hover:text-primary-foreground transition-colors"
-                >
-                  Products
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/what_we_offer#distributors"
-                  onClick={scrollToTop}
-                  className="hover:text-primary-foreground transition-colors"
-                >
-                  Distributed Brands
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/what_we_offer#supply"
-                  onClick={scrollToTop}
-                  className="hover:text-primary-foreground transition-colors"
-                >
-                  Material Supplies
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/what_we_offer#services"
-                  onClick={scrollToTop}
-                  className="hover:text-primary-foreground transition-colors"
-                >
-                  Services
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Mobile column 2: Resources + Contact Details. Becomes transparent from md up. */}
+          <div className="flex flex-col gap-8 md:contents">
+            {/* Resources */}
+            <div className="text-primary-foreground w-full">
+              <h3 className="text-base font-semibold mb-4">Resources</h3>
+              <ul className="grid gap-3 text-sm text-primary-foreground/80">
+                <li className="flex items-center justify-between gap-2 md:max-w-[200px]">
+                  <span>Company Brochure</span>
+                  <a
+                    href={brochurePdf}
+                    download="IONIC-Brochure.pdf"
+                    className="p-1.5 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground transition-colors flex items-center justify-center shadow-sm shrink-0"
+                    title="Download Company Brochure"
+                  >
+                    <Download size={14} />
+                  </a>
+                </li>
+                <li className="flex items-center justify-between gap-2 md:max-w-[200px]">
+                  <span>Company Profile</span>
+                  <a
+                    href={companyProfilePdf}
+                    download="IONIC-Company Profile.pdf"
+                    className="p-1.5 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground transition-colors flex items-center justify-center shadow-sm shrink-0"
+                    title="Download Company Profile"
+                  >
+                    <Download size={14} />
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          {/* Resources */}
-          <div className="text-primary-foreground w-full">
-            <h3 className="text-base font-semibold mb-4">Resources</h3>
-            <ul className="grid gap-3 text-sm text-primary-foreground/80">
-              <li className="flex items-center justify-between gap-2 max-w-[200px]">
-                <span>Company Brochure</span>
-                <a
-                  href={brochurePdf}
-                  download="IONIC-Brochure.pdf"
-                  className="p-1.5 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground transition-colors flex items-center justify-center shadow-sm"
-                  title="Download Company Brochure"
-                >
-                  <Download size={14} />
-                </a>
-              </li>
-              <li className="flex items-center justify-between gap-2 max-w-[200px]">
-                <span>Company Profile</span>
-                <a
-                  href={companyProfilePdf}
-                  download="IONIC-Company Profile.pdf"
-                  className="p-1.5 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground transition-colors flex items-center justify-center shadow-sm"
-                  title="Download Company Profile"
-                >
-                  <Download size={14} />
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact Details */}
-          <div className="text-primary-foreground">
-            <h3 className="text-base font-semibold mb-4">Contact Details</h3>
-            <div className="grid gap-3 text-sm text-primary-foreground/80">
-              <div className="flex items-start gap-3">
-                <MapPin size={18} className="text-primary-foreground/70" />
-                <span>Blk 9 Lot 6, Banuyo Rd, Pilar Village, Las Piñas City</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <Phone size={18} className="text-primary-foreground/70" />
-                <div>
-                  <div className="font-semibold text-primary-foreground/90">Landline</div>
-                  <div>(632) 8806 2048</div>
-                  <div>(632) 8805 2959</div>
-                  <div>(632) 8800 9104</div>
+            {/* Contact Details */}
+            <div className="text-primary-foreground">
+              <h3 className="text-base font-semibold mb-4">Contact Details</h3>
+              <div className="grid gap-3 text-sm text-primary-foreground/80">
+                <div className="flex items-start gap-2">
+                  <MapPin size={18} className="text-primary-foreground/70 shrink-0 mt-0.5" />
+                  <span>Blk 9 Lot 6, Banuyo Rd, Pilar Village, Las Piñas City</span>
                 </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail size={18} className="text-primary-foreground/70" />
-                <span>impactonenation@gmail.com</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Facebook size={18} className="text-primary-foreground/70" />
-                <a
-                  href="https://www.facebook.com/impactonenation/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary-foreground transition-colors"
-                >
-                  facebook.com/impactonenation
-                </a>
+                <div className="flex items-start gap-2">
+                  <Phone size={18} className="text-primary-foreground/70 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="font-semibold text-primary-foreground/90">Landline</div>
+                    <div>(632) 8806 2048</div>
+                    <div>(632) 8805 2959</div>
+                    <div>(632) 8800 9104</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Mail size={18} className="text-primary-foreground/70 shrink-0 mt-0.5" />
+                  <span className="break-all">impactonenation@gmail.com</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Facebook size={18} className="text-primary-foreground/70 shrink-0 mt-0.5" />
+                  <a
+                    href="https://www.facebook.com/impactonenation/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-primary-foreground transition-colors break-all"
+                  >
+                    facebook.com/impactonenation
+                  </a>
+                </div>
               </div>
             </div>
           </div>
