@@ -84,18 +84,47 @@ function buildEmailPayload(form: FormData, recipientEmail: string) {
   const requesterName = `${form.firstName} ${miPart}${form.lastName}`.trim();
   const formattedDate = formatDateReadable(form.date);
   const formattedTime = formatTimeReadable(form.time);
-  
-  // Filter valid services/products
-  const validServices = form.services.filter(s => s.trim()).join(", ");
-  const validProducts = form.products.filter(p => p.trim()).join(", ");
-  
+
+  const validServices = form.services.filter((service) => service.trim());
+  const validProducts = form.products.filter((product) => product.trim());
+
+  const formatListText = (items: string[]) => {
+    if (items.length === 0) return "N/A";
+    if (items.length === 1) return items[0];
+
+    return items.map((item) => `- ${item}`).join("\n");
+  };
+
+  const formatListHtml = (items: string[]) => {
+    if (items.length === 0) return "N/A";
+    if (items.length === 1) return items[0];
+
+    return `<ul style="margin:0;padding-left:18px;">${items
+      .map((item) => `<li style="margin:0 0 4px 0;">${item}</li>`)
+      .join("")}</ul>`;
+  };
+
+  const servicesText = formatListText(validServices);
+  const productsText = formatListText(validProducts);
+  const servicesHtml = formatListHtml(validServices);
+  const productsHtml = formatListHtml(validProducts);
+  const templateParams = {
+    landline: form.landline?.trim() || "-",
+    date: formattedDate,
+    time: formattedTime,
+    service: servicesText,
+    product: productsText,
+    serviceHtml: servicesHtml,
+    productHtml: productsHtml,
+  };
+
   const appointmentSummary = [
     `Company / Facility: ${form.company || "N/A"}`,
     `Email: ${form.email}`,
     `Phone: ${form.phone}`,
     `Landline: ${form.landline || "N/A"}`,
-    `Services: ${validServices || "N/A"}`,
-    `Products: ${validProducts || "N/A"}`,
+    `Services: ${servicesText}`,
+    `Products: ${productsText}`,
     `Date: ${formattedDate}`,
     `Time: ${formattedTime}`,
     `Description: ${form.description || "N/A"}`,
@@ -115,15 +144,20 @@ function buildEmailPayload(form: FormData, recipientEmail: string) {
     mi: form.mi,
     phone: form.phone,
     landline: form.landline,
-    service: validServices,
-    services: validServices,
-    product: validProducts,
-    products: validProducts,
+    service: servicesText,
+    services: servicesText,
+    serviceHtml: servicesHtml,
+    services_html: servicesHtml,
+    product: productsText,
+    products: productsText,
+    productHtml: productsHtml,
+    products_html: productsHtml,
     date: formattedDate,
     time: formattedTime,
     description: form.description,
     request: appointmentSummary,
     message: appointmentSummary,
+    templateParams,
     subject:
       recipientEmail === companyEmail
         ? `New appointment request from ${requesterName}`
