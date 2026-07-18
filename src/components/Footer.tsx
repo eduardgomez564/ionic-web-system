@@ -167,7 +167,7 @@ const Footer = () => {
               <div className="grid gap-3 text-sm text-primary-foreground/80">
                 <div className="flex items-start gap-2">
                   <MapPin size={18} className="text-primary-foreground/70 shrink-0 mt-0.5" />
-                  <span>Blk 9 Lot 6, Banuyo Rd, Pilar Village, Las Piñas City</span>
+                  <span>6D Pearl St, Golden Acres Subd, Las Piñas City</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <Phone size={18} className="text-primary-foreground/70 shrink-0 mt-0.5" />
@@ -180,7 +180,7 @@ const Footer = () => {
                 </div>
                 <div className="flex items-start gap-2">
                   <Mail size={18} className="text-primary-foreground/70 shrink-0 mt-0.5" />
-                  <span className="break-all">impactonenation@gmail.com</span>
+                  <span className="break-all">sales@impactonenation.com</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <Facebook size={18} className="text-primary-foreground/70 shrink-0 mt-0.5" />

@@ -113,8 +113,8 @@ const PrivacyPolicy = () => {
                 If you have questions about this Privacy Policy, wish to access or correct your personal data, or want to file a request to delete your records, please contact our Data Protection Office:
               </p>
               <div className="space-y-2 text-sm text-foreground">
-                <p><strong>Email:</strong> <a href="mailto:impactonenation@gmail.com" className="text-ionic-blue hover:underline">impactonenation@gmail.com</a></p>
-                <p><strong>Office:</strong> Blk 9 Lot 6, Banuyo Rd, Pilar Village, Las Piñas City</p>
+                <p><strong>Email:</strong> <a href="mailto:sales@impactonenation.com" className="text-ionic-blue hover:underline">sales@impactonenation.com</a></p>
+                <p><strong>Office:</strong> 6D Pearl St, Golden Acres Subd, Las Piñas City</p>
                 <p><strong>Landline:</strong> (632) 8806 2048 / (632) 8805 2959</p>
               </div>
             </div>

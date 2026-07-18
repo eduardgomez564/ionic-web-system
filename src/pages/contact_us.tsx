@@ -46,7 +46,7 @@ const ContactUs = () => {
                 <div>
                   <p className="text-sm font-semibold text-foreground mb-0.5">Office Address</p>
                   <p className="text-muted-foreground leading-relaxed">
-                    Blk 9 Lot 6, Banuyo Rd, Pilar Village, Las Piñas City
+                    6D Pearl St, Golden Acres Subd, Las Piñas City
                   </p>
                 </div>
               </div>
@@ -85,10 +85,10 @@ const ContactUs = () => {
                   <div>
                     <p className="text-sm font-semibold text-foreground mb-1">Email</p>
                     <a
-                      href="mailto:impactonenation@gmail.com"
+                      href="mailto:sales@impactonenation.com"
                       className="text-muted-foreground hover:text-ionic-blue transition-colors break-all"
                     >
-                      impactonenation@gmail.com
+                      sales@impactonenation.com
                     </a>
                   </div>
                 </div>

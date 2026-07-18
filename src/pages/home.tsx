@@ -355,7 +355,7 @@ const Home = () => {
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-700/80">Our Office</p>
                   <h3 className="text-base font-semibold text-foreground">Impact One Nation Industrial Corporation</h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">Blk 9 Lot 6, Banuyo Rd, Pilar Village, Las Piñas City</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">6D Pearl St, Golden Acres Subd, Las Piñas City</p>
                 </div>
               </div>
               <div className="flex gap-3 rounded-lg border border-border bg-card p-4 shadow-card">
@@ -393,7 +393,7 @@ const Home = () => {
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-700/80">Our Office</p>
                     <h3 className="text-lg font-semibold text-foreground">Impact One Nation Industrial Corporation</h3>
-                    <p className="text-sm leading-relaxed text-muted-foreground">Blk 9 Lot 6, Banuyo Rd, Pilar Village, Las Piñas City</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">6D Pearl St, Golden Acres Subd, Las Piñas City</p>
                   </div>
                 </div>
                 <div className="flex gap-3 rounded-lg border border-border bg-card p-4 shadow-card">
